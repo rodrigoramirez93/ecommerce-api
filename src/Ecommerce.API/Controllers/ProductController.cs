@@ -22,7 +22,11 @@ namespace API.Controllers
         [HttpGet]
         public IEnumerable<Product> Get()
         {
-            return new List<Product>() { new Product() { ProductId = 1, Name = "Product name", Description = "Description" } };
+            return new List<Product>()
+            {
+                new Product() { ProductId = 1, Name = "Product name", Description = "Description" },
+                new Product() { ProductId = 2, Name = "Product name 2 ", Description = "Description 2" }
+            };
         }
     }
 }
