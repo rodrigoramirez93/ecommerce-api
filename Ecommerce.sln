@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{478F2135-BA2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1A3D3A22-95DC-459F-B610-C2F455DD13AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Business.Services", "ECommerce.Business.Services\Ecommerce.Business.Services.csproj", "{31D83ACA-57E3-4D44-B166-3DF193494AFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Business.Services", "Ecommerce.Business.Services\Ecommerce.Business.Services.csproj", "{31D83ACA-57E3-4D44-B166-3DF193494AFD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Domain.Repositories", "Ecommerce.Domain.Repositories\Ecommerce.Domain.Repositories.csproj", "{21B2F3EB-39C4-4178-A4E4-155B4BFE7935}"
 EndProject
