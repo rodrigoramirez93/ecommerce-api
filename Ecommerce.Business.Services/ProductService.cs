@@ -5,49 +5,73 @@ using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Core;
 using Ecommerce.Domain.Model;
 using Ecommerce.Domain.Repositories.Interfaces;
-using FluentValidation;
-using System;
 using System.Collections.Generic;
 
 namespace Ecommerce.Business.Services
 {
-    public class ProductServiceDto: IServiceDto<ProductDto>
+    public class ProductServiceDto : IServiceDto<ProductDto>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ProductServiceDto(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IDtoValidator<ProductDtoValidator, ProductDto> _dtoValidator;
+        private readonly IDtoValidator<ProductFilterDtoValidator, ProductFilterDto> _searchDtoValidator;
+        private readonly IFilterBuilder _filterBuilder;
+        public ProductServiceDto(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IDtoValidator<ProductDtoValidator, ProductDto> dtoValidator,
+            IDtoValidator<ProductFilterDtoValidator, ProductFilterDto> searchDtoValidator,
+            IFilterBuilder filterBuilder)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _dtoValidator = dtoValidator;
+            _searchDtoValidator = searchDtoValidator;
+            _filterBuilder = filterBuilder;
         }
 
-        public ProductDto Create(ProductDto entity)
+        public int Create(ProductDto entity)
         {
-            DtoHelper.Validate<ProductDtoValidator, ProductDto>(entity);
+            _dtoValidator.Validate(entity, RuleSets.Create);
             var product = _mapper.Map<Product>(entity);
-            var response = _unitOfWork.Products.Create(product);
+            _unitOfWork.Products.Create(product);
             _unitOfWork.Commit();
-            return _mapper.Map<ProductDto>(response);
+            return product.Id;
         }
 
-        public ProductDto Delete(int id)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _unitOfWork.Products.Delete(id);
+            _unitOfWork.Commit();
         }
 
         public ProductDto Read(int id)
         {
-            throw new NotImplementedException();
+            var product = _unitOfWork.Products.Read(id);
+            return _mapper.Map<ProductDto>(product);
+        }
+
+        public IEnumerable<ProductDto> Read(ProductFilterDto productFilterDto)
+        {
+            _searchDtoValidator.Validate(productFilterDto, RuleSets.Search);
+            var filterConditions = _filterBuilder.Build(productFilterDto);
+            var products = _unitOfWork.Products.Read(filterConditions);
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
         public IEnumerable<ProductDto> Read()
         {
-            throw new NotImplementedException();
+            var products = _unitOfWork.Products.Read();
+            return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
         public ProductDto Update(ProductDto entity)
         {
-            throw new NotImplementedException();
+            _dtoValidator.Validate(entity, RuleSets.Update);
+            var product = _mapper.Map<Product>(entity);
+            _unitOfWork.Products.Update(product);
+            _unitOfWork.Commit();
+            return _mapper.Map<ProductDto>(product);
         }
     }
 }

@@ -21,7 +21,53 @@ namespace Ecommerce.API
         [HttpPost]
         public IActionResult Post(ProductDto product)
         {
-            return Ok(_productService.Create(product).Id);
+            return Ok(_productService.Create(product));
+        }
+
+        [HttpGet]
+        public IActionResult Get(int id)
+        {
+            var product = _productService.Read(id);
+            
+            if (product == null)
+                return NotFound();
+
+            return Ok(product);
+        }
+
+        [HttpGet("All")]
+        public IActionResult Get()
+        {
+            var product = _productService.Read();
+
+            if (product == null)
+                return NotFound();
+
+            return Ok(product);
+        }
+
+        [HttpGet("Filter")]
+        public IActionResult Get([FromQuery] ProductFilterDto productFilterDto)
+        {
+            var product = _productService.Read(productFilterDto);
+
+            if (product == null)
+                return NotFound();
+
+            return Ok(product);
+        }
+
+        [HttpPut]
+        public IActionResult Update([FromBody] ProductDto productDto)
+        {
+            return Ok(_productService.Update(productDto));
+        }
+    
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] int id)
+        {
+            _productService.Delete(id);
+            return Ok(id);
         }
     }
 }

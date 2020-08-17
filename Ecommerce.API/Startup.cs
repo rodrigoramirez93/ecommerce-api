@@ -1,6 +1,7 @@
 using AutoMapper;
 using Ecommerce.Business.Dto;
 using Ecommerce.Business.Dto.Mappings;
+using Ecommerce.Business.Dto.Validators;
 using Ecommerce.Business.Services;
 using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Core;
@@ -33,8 +34,14 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
             services.AddTransient<IServiceDto<ProductDto>, ProductServiceDto>();
+            services.AddTransient<IDtoValidator<ProductDtoValidator, ProductDto>, DtoValidator<ProductDtoValidator, ProductDto>>();
+            services.AddTransient<IDtoValidator<ProductFilterDtoValidator, ProductFilterDto>, DtoValidator<ProductFilterDtoValidator, ProductFilterDto>>();
+            services.AddTransient<IFilterBuilder, FilterBuilder>();
+
             services.AddScoped<IRepository<Product>, ProductRepository>();
+            
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<DatabaseContext>(options =>
             {

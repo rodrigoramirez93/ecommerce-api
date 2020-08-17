@@ -1,9 +1,10 @@
 ﻿using Ecommerce.Core;
 using System;
+using System.Linq.Expressions;
 
 namespace Ecommerce.Domain.Model
 {
-    public class Product: BaseEntity
+    public class Product : BaseEntity
     {
         public Product()
         {
@@ -17,5 +18,6 @@ namespace Ecommerce.Domain.Model
         public decimal Price { get; set; }
 
         public int Stock { get; set; }
+
     }
 }

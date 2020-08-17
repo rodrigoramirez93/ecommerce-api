@@ -1,18 +1,22 @@
 ﻿using Ecommerce.Core;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Ecommerce.Domain.Repositories.Interfaces
 {
     public interface IRepository<T> where T: BaseEntity
     {
-        T Create(T entity);
+        int Create(T entity);
 
         T Read(int id);
 
         IEnumerable<T> Read();
 
+        IEnumerable<T> Read(Expression<Func<T, bool>> predicate);
+
         T Update(T entity);
 
-        T Delete(int id);
+        void Delete(int id);
     }
 }

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ecommerce.Core\Ecommerce.Core.csproj" />
     <ProjectReference Include="..\Ecommerce.Domain.DAL\Ecommerce.Domain.DAL.csproj" />
     <ProjectReference Include="..\Ecommerce.Domain.Model\Ecommerce.Domain.Model.csproj" />
