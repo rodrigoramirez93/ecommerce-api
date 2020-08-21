@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Security;
 
 namespace API
 {
@@ -49,6 +50,17 @@ namespace API
             }, ServiceLifetime.Singleton);
 
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "default",
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                                  });
+            });
+
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new ProductProfile());
@@ -69,6 +81,8 @@ namespace API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("default");
 
             app.UseEndpoints(endpoints =>
             {
