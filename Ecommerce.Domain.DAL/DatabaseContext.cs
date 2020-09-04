@@ -1,17 +1,20 @@
 ﻿using Ecommerce.Domain.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Ecommerce.Domain.DAL
 {
-    public class DatabaseContext: DbContext
+    public class DatabaseContext: IdentityDbContext<User, Role, Guid>
     {
-        public DatabaseContext() : base()
+        public DatabaseContext(DbContextOptions options) : base(options)
         {
 
         }
 
-        public DatabaseContext(DbContextOptions options) : base(options)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
 
         }
 

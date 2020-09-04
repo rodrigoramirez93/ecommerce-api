@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Business.Dto;
 using Ecommerce.Business.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -24,6 +25,7 @@ namespace Ecommerce.API
             return Ok(_productService.Create(product));
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Get(int id)
         {
@@ -35,6 +37,8 @@ namespace Ecommerce.API
             return Ok(product);
         }
 
+
+        [Authorize]
         [HttpGet("All")]
         public IActionResult Get()
         {
