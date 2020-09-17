@@ -62,7 +62,7 @@ namespace API
                 options.AddPolicy(name: "default",
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:4200")
+                                      builder.AllowAnyOrigin()
                                         .AllowAnyHeader()
                                         .AllowAnyMethod();
                                   });

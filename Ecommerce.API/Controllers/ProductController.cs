@@ -37,7 +37,6 @@ namespace Ecommerce.API
             return Ok(product);
         }
 
-
         [Authorize]
         [HttpGet("All")]
         public IActionResult Get()

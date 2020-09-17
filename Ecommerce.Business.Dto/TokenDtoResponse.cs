@@ -7,13 +7,13 @@ namespace Ecommerce.Business.Dto
 {
     public class TokenDtoResponse
     {
-        public TokenDtoResponse(string token, HttpStatusCode statusCode)
+        public TokenDtoResponse(TokenDto token, HttpStatusCode statusCode)
         {
             Token = token;
             HttpStatusCode = statusCode;
         }
 
-        public string Token { get; }
+        public TokenDto Token { get; }
         public HttpStatusCode HttpStatusCode { get; }
     }
 }

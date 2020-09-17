@@ -14,7 +14,6 @@ namespace Ecommerce.API
     {
         private readonly ILogger<ProductController> _logger;
         private readonly IAuthService _authService;
-        private readonly IJwtService _jwtService;
 
         public AuthController(ILogger<ProductController> logger,
             IAuthService authService,
@@ -22,7 +21,6 @@ namespace Ecommerce.API
         {
             _logger = logger;
             _authService = authService;
-            _jwtService = jwtService;
         }
 
         [HttpPost("Signup")]
@@ -51,25 +49,18 @@ namespace Ecommerce.API
             return Problem(result.Errors.First().Description, null, 500);
         }
 
-
-
         [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn(SignInDto signInDto)
         {
             var response = await _authService.GetToken(signInDto);
 
-            if (response.HttpStatusCode == HttpStatusCode.BadRequest)
+            return response.HttpStatusCode switch
             {
-                return BadRequest("Email or password incorrect.");
-            }
-
-            if (response.HttpStatusCode == HttpStatusCode.NotFound)
-            {
-                return NotFound("Username not found");
-            }
-
-            return Ok(response.Token);
+                HttpStatusCode.BadRequest => BadRequest("Email or password incorrect."),
+                HttpStatusCode.NotFound => NotFound("Username not found"),
+                HttpStatusCode.OK => Ok(response),
+                _ => BadRequest("Something went wrong"),
+            };
         }
-
     }
 }

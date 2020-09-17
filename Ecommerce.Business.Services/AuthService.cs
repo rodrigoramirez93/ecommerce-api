@@ -58,9 +58,9 @@ namespace Ecommerce.Business.Services
                 return new TokenDtoResponse(null, HttpStatusCode.NotFound);
             }
 
-            var userSigninResult = await _userManager.CheckPasswordAsync(user, signInDto.Password);
+            var userPasswordIsValid = await _userManager.CheckPasswordAsync(user, signInDto.Password);
 
-            if (userSigninResult)
+            if (userPasswordIsValid)
             {
                 var roles = await _userManager.GetRolesAsync(user);
                 var token =_jwtService.GenerateJwt(user, roles);

@@ -1,4 +1,5 @@
-﻿using Ecommerce.Business.Services.Interfaces;
+﻿using Ecommerce.Business.Dto;
+using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Core;
 using Ecommerce.Domain.Model;
 using Microsoft.Extensions.Options;
@@ -20,7 +21,7 @@ namespace Ecommerce.Business.Services
             _appsettings = appsettings.Value;
         }
 
-        public string GenerateJwt(User user, IList<string> roles)
+        public TokenDto GenerateJwt(User user, IList<string> roles)
         {
             var claims = new List<Claim>
             {
@@ -45,7 +46,9 @@ namespace Ecommerce.Business.Services
                 signingCredentials: creds
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var idToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return new TokenDto(idToken, expires);
         }
     }
 }

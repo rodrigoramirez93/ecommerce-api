@@ -15,7 +15,7 @@ namespace Ecommerce.Domain.DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            builder.Entity<Product>().HasData(DummyService.GetProductDummyData());
         }
 
         public DbSet<Product> Products { get; set; }
