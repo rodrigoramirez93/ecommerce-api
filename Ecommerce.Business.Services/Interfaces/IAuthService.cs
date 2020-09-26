@@ -12,7 +12,6 @@ namespace Ecommerce.Business.Services.Interfaces
         Task<IdentityResult> CreateUserAsync(SignUpDto signUpDto);
         Task<IdentityResult> AddUserToRoleAsync(string userEmail, string roleName);
         Task<TokenDtoResponse> GetToken(SignInDto signUpDto);
-
         Task AddRole(string roleName);
     }
 }

@@ -48,7 +48,7 @@ namespace Ecommerce.Business.Services
 
             var idToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new TokenDto(idToken, expires);
+            return new TokenDto(idToken, expires, new UserDto(user.Id.ToString(), user.Firstname, user.Lastname));
         }
     }
 }
