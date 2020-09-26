@@ -39,7 +39,7 @@ namespace API
         {
             services.Configure<Appsettings>(Configuration);
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 
             services.AddTransient<IJwtService, JwtService>();
             services.AddTransient<IServiceDto<ProductDto>, ProductServiceDto>();

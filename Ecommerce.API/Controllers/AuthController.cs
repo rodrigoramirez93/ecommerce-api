@@ -23,7 +23,7 @@ namespace Ecommerce.API
             _authService = authService;
         }
 
-        [HttpPost("Signup")]
+        [HttpPost("signup")]
         public async Task<IActionResult> SignUp(SignUpDto signUpDto)
         {
             var userCreateResult = await _authService.CreateUserAsync(signUpDto);
@@ -36,10 +36,10 @@ namespace Ecommerce.API
             return Problem(userCreateResult.Errors.First().Description, null, 500);
         }
 
-        [HttpPost("User/{userEmail}/Role")]
-        public async Task<IActionResult> AddUserToRole(string userEmail, [FromBody] string roleName)
+        [HttpPost("user/role")]
+        public async Task<IActionResult> AddUserToRole(AddRoleDto addRoleDto)
         {
-            var result = await _authService.AddUserToRoleAsync(userEmail, roleName);
+            var result = await _authService.AddUserToRoleAsync(addRoleDto.Username, addRoleDto.Role);
 
             if (result.Succeeded)
             {
@@ -49,7 +49,7 @@ namespace Ecommerce.API
             return Problem(result.Errors.First().Description, null, 500);
         }
 
-        [HttpPost("SignIn")]
+        [HttpPost("signIn")]
         public async Task<IActionResult> SignIn(SignInDto signInDto)
         {
             var response = await _authService.GetToken(signInDto);
@@ -61,6 +61,13 @@ namespace Ecommerce.API
                 HttpStatusCode.OK => Ok(response),
                 _ => BadRequest("Something went wrong"),
             };
+        }
+
+        [HttpPost("addRole/{roleName}")]
+        public async Task<IActionResult> AddRole(string roleName)
+        {
+            await _authService.AddRole(roleName);
+            return Ok();
         }
     }
 }

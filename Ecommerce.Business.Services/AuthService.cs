@@ -6,6 +6,7 @@ using Ecommerce.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -68,6 +69,18 @@ namespace Ecommerce.Business.Services
             }
 
             return new TokenDtoResponse(null, HttpStatusCode.BadRequest);
+        }
+    
+        public async Task AddRole(string roleName)
+        {
+            var role = new Role() {
+                Id = Guid.NewGuid(),
+                Name = roleName,
+                NormalizedName = roleName.ToUpper(),
+                ConcurrencyStamp = Guid.NewGuid().ToString()
+            };
+
+            await _roleManager.CreateAsync(role);
         }
     }
 }
