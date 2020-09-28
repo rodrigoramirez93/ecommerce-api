@@ -17,7 +17,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
 using System.Security;
 
 namespace API
@@ -43,10 +45,38 @@ namespace API
 
             services.AddTransient<IJwtService, JwtService>();
             services.AddTransient<IServiceDto<ProductDto>, ProductServiceDto>();
-            services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<IDtoValidator<ProductDtoValidator, ProductDto>, DtoValidator<ProductDtoValidator, ProductDto>>();
-            services.AddTransient<IDtoValidator<ProductFilterDtoValidator, ProductFilterDto>, DtoValidator<ProductFilterDtoValidator, ProductFilterDto>>();
+            services.AddTransient(typeof(IDtoValidator<,>), typeof(DtoValidator<,>));
             services.AddTransient<IFilterBuilder, FilterBuilder>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "My API",
+                    Version = "v1"
+                });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                    },
+                    new string[] { }
+                }
+                });
+            });
 
             services.AddScoped<IRepository<Product>, ProductRepository>();
 
@@ -88,6 +118,12 @@ namespace API
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
 
+
+            services.AddScoped<IAdminAuthService, AdminAuthService>();
+            services.AddScoped<IManagerAuthService, ManagerAuthService>();
+            services.AddScoped<IEmployeeAuthService, EmployeeAuthService>();
+            services.AddScoped<ILoginService, LoginService>();
+
             services.AddAuth(_appsettings.JwtSettings);
         }
 
@@ -95,13 +131,18 @@ namespace API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseCors("default");
 

@@ -14,21 +14,25 @@ using System.Threading.Tasks;
 namespace Ecommerce.Business.Services
 {
 
-    public class AuthService : IAuthService
+    public abstract class AuthService<T, U> : IAuthService<T, U>
+        where T: User
+        where U: Role
     {
-        private readonly ILogger<AuthService> _logger;
-        private readonly UserManager<User> _userManager;
+        private readonly ILogger<AuthService<T, U>> _logger;
         private readonly IMapper _mapper;
-        private readonly RoleManager<Role> _roleManager;
-        private readonly Appsettings _appsettings;
+
+        private readonly UserManager<T> _userManager;
+        private readonly RoleManager<U> _roleManager;
         private readonly IJwtService _jwtService;
 
-        public AuthService(ILogger<AuthService> logger,
-            UserManager<User> userManager,
+        private readonly Appsettings _appsettings;
+        
+        public AuthService(ILogger<AuthService<T, U>> logger,
             IMapper mapper,
-            RoleManager<Role> roleManager,
-            IOptionsSnapshot<Appsettings> appsettings,
-            IJwtService jwtService)
+            UserManager<T> userManager,
+            RoleManager<U> roleManager,
+            IJwtService jwtService,
+            IOptionsSnapshot<Appsettings> appsettings)
         {
             _logger = logger;
             _userManager = userManager;
@@ -38,49 +42,17 @@ namespace Ecommerce.Business.Services
             _jwtService = jwtService;
         }
 
-        public async Task<IdentityResult> CreateUserAsync(SignUpDto signUpDto)
+        public virtual async Task<IdentityResult> CreateAsync(SignUpDto signUpDto)
         {
-            var user = _mapper.Map<SignUpDto, User>(signUpDto);
+            var user = _mapper.Map<SignUpDto, T>(signUpDto);
             return await _userManager.CreateAsync(user, signUpDto.Password);
         }
 
-        public async Task<IdentityResult> AddUserToRoleAsync(string userEmail, string roleName)
+        public virtual async Task<IdentityResult> AddToRoleAsync(string userEmail, string roleName)
         {
             var user = _userManager.Users.SingleOrDefault(u => u.UserName == userEmail);
             return await _userManager.AddToRoleAsync(user, roleName);
         }
 
-        public async Task<TokenDtoResponse> GetToken(SignInDto signInDto)
-        {
-            var user = _userManager.Users.SingleOrDefault(u => u.UserName == signInDto.Email);
-
-            if (user is null)
-            {
-                return new TokenDtoResponse(null, HttpStatusCode.NotFound);
-            }
-
-            var userPasswordIsValid = await _userManager.CheckPasswordAsync(user, signInDto.Password);
-
-            if (userPasswordIsValid)
-            {
-                var roles = await _userManager.GetRolesAsync(user);
-                var token =_jwtService.GenerateJwt(user, roles);
-                return new TokenDtoResponse(token, HttpStatusCode.OK);
-            }
-
-            return new TokenDtoResponse(null, HttpStatusCode.BadRequest);
-        }
-    
-        public async Task AddRole(string roleName)
-        {
-            var role = new Role() {
-                Id = Guid.NewGuid(),
-                Name = roleName,
-                NormalizedName = roleName.ToUpper(),
-                ConcurrencyStamp = Guid.NewGuid().ToString()
-            };
-
-            await _roleManager.CreateAsync(role);
-        }
     }
 }

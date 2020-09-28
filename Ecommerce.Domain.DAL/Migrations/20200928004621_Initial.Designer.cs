@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Domain.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200903235310_identiy")]
-    partial class identiy
+    [Migration("20200928004621_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,33 @@ namespace Ecommerce.Domain.DAL.Migrations
                 .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Ecommerce.Domain.Model.Organization", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organizations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Microsoft"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Amazon"
+                        });
+                });
 
             modelBuilder.Entity("Ecommerce.Domain.Model.Product", b =>
                 {
@@ -34,6 +61,9 @@ namespace Ecommerce.Domain.DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -42,7 +72,29 @@ namespace Ecommerce.Domain.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrganizationId");
+
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Ricolinos",
+                            Name = "Caramelos",
+                            OrganizationId = 1,
+                            Price = 10m,
+                            Stock = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Acaso",
+                            Name = "Chocolates",
+                            OrganizationId = 2,
+                            Price = 5m,
+                            Stock = 3
+                        });
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.Model.Role", b =>
@@ -113,6 +165,9 @@ namespace Ecommerce.Domain.DAL.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -141,6 +196,8 @@ namespace Ecommerce.Domain.DAL.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("OrganizationId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -244,6 +301,22 @@ namespace Ecommerce.Domain.DAL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Ecommerce.Domain.Model.Product", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Model.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Ecommerce.Domain.Model.User", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Model.Organization", "Organization")
+                        .WithMany("Users")
+                        .HasForeignKey("OrganizationId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

@@ -9,6 +9,5 @@ namespace Ecommerce.Core
 {
     public class BaseDto
     {
-        public int Id { get; set; }
     }
 }

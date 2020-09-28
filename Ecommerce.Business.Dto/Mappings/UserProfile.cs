@@ -12,6 +12,10 @@ namespace Ecommerce.Business.Dto.Mappings
         {
             CreateMap<SignUpDto, User>()
                 .ForMember(u => u.UserName, opt => opt.MapFrom(ur => ur.Email));
+
+            CreateMap<SignUpDto, AdminUser>()
+                .ForMember(u => u.UserName, opt => opt.MapFrom(ur => ur.Email));
+
         }
     }
 }

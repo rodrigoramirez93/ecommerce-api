@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Business.Dto;
+using Ecommerce.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Business.Services.Interfaces
 {
-    public interface IAuthService
+    public interface IAuthService<T, U> 
+        where T: User 
+        where U: Role
     {
-        Task<IdentityResult> CreateUserAsync(SignUpDto signUpDto);
-        Task<IdentityResult> AddUserToRoleAsync(string userEmail, string roleName);
-        Task<TokenDtoResponse> GetToken(SignInDto signUpDto);
-        Task AddRole(string roleName);
+        Task<IdentityResult> CreateAsync(SignUpDto signUpDto);
+        Task<IdentityResult> AddToRoleAsync(string userEmail, string roleName);
     }
 }
