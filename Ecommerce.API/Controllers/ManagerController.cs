@@ -11,9 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.API.Controllers
 {
-    //[ApiController]
+    [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    //[Authorize]
     public class ManagerController : ControllerBase
     {
         private readonly IManagerAuthService _authService;
