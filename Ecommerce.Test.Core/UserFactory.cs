@@ -1,0 +1,26 @@
+﻿using Ecommerce.Domain.Model;
+using System.Collections.Generic;
+
+namespace Ecommerce.Test.Core
+{
+    //public class UserFactory : EntityAbstractFactory<User, UserType>
+    //{
+    //    private User CreateBaseUser()
+    //    {
+    //        var user = new User();
+    //        return user;
+    //    }
+
+    //    public override User CreateInstance(UserType options)
+    //    {
+    //        var baseUser = CreateBaseUser();
+
+    //        return options switch
+    //        {
+    //            UserType.Valid => baseUser,
+    //            //...some other possibilities
+    //            _ => baseUser
+    //        };
+    //    }
+    //}
+}
