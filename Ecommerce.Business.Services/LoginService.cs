@@ -4,8 +4,10 @@ using Ecommerce.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,8 +38,18 @@ namespace Ecommerce.Business.Services
 
             if (userPasswordIsValid)
             {
-                var roles = await _userManager.GetRolesAsync(user);
-                var token = _jwtService.GenerateJwt(user, roles);
+                var baseClaims = new List<Claim>
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                };
+
+                var userClaims = await _userManager.GetClaimsAsync(user);
+                var claims = baseClaims.Concat(userClaims).ToList();
+
+                var token = _jwtService.GenerateJwt(user, claims);
                 return new TokenDtoResponse(token, HttpStatusCode.OK);
             }
 

@@ -6,13 +6,6 @@ using System.Text;
 
 namespace Ecommerce.Core
 {
-    public enum Roles
-    {
-        Admin,
-        Manager,
-        Employee,
-    }
-
     public static class Constants
     {
         public static class Validation

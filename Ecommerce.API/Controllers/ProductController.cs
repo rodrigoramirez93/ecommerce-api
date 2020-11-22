@@ -22,14 +22,12 @@ namespace Ecommerce.API
         }
 
         [HttpPost]
-        [AuthorizeRoles(Roles.Admin, Roles.Manager, Roles.Employee)]
         public IActionResult Post(ProductDto product)
         {
             return Ok(_productService.Create(product));
         }
 
         [HttpGet]
-        [AuthorizeRoles(Roles.Admin, Roles.Manager, Roles.Employee)]
         public IActionResult Get(int id)
         {
             var product = _productService.Read(id);
@@ -41,7 +39,6 @@ namespace Ecommerce.API
         }
 
         [HttpGet("All")]
-        [AuthorizeRoles(Roles.Admin, Roles.Manager, Roles.Employee)]
         public IActionResult Get()
         {
             var product = _productService.Read();
@@ -53,7 +50,6 @@ namespace Ecommerce.API
         }
 
         [HttpGet("Filter")]
-        [AuthorizeRoles(Roles.Admin, Roles.Manager, Roles.Employee)]
         public IActionResult Get([FromQuery] ProductFilterDto productFilterDto)
         {
             var product = _productService.Read(productFilterDto);
@@ -65,14 +61,12 @@ namespace Ecommerce.API
         }
 
         [HttpPut]
-        [AuthorizeRoles(Roles.Admin, Roles.Manager, Roles.Employee)]
         public IActionResult Update([FromBody] ProductDto productDto)
         {
             return Ok(_productService.Update(productDto));
         }
     
         [HttpDelete]
-        [AuthorizeRoles(Roles.Admin, Roles.Manager, Roles.Employee)]
         public IActionResult Delete([FromQuery] int id)
         {
             _productService.Delete(id);

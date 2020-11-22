@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ecommerce.Domain.Model
 {
-    public class Role : IdentityRole<Guid>
+    public class Role : IdentityRole<int>
     {
     }
 }

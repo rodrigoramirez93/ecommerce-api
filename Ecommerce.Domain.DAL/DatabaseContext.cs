@@ -5,7 +5,7 @@ using System;
 
 namespace Ecommerce.Domain.DAL
 {
-    public class DatabaseContext: IdentityDbContext<User, Role, Guid>
+    public class DatabaseContext: IdentityDbContext<User, Role, int>
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         {

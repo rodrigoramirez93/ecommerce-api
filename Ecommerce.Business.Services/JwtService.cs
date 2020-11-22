@@ -21,19 +21,8 @@ namespace Ecommerce.Business.Services
             _appsettings = appsettings.Value;
         }
 
-        public TokenDto GenerateJwt(User user, IList<string> roles)
+        public TokenDto GenerateJwt(User user, List<Claim> claims)
         {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
-
-            var roleClaims = roles.Select(r => new Claim(ClaimTypes.Role, r));
-            claims.AddRange(roleClaims);
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appsettings.JwtSettings.Secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires = DateTime.Now.AddDays(Convert.ToDouble(_appsettings.JwtSettings.ExpirationInDays));

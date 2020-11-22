@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Business.Services.Interfaces
 {
-    public interface IAuthService<T, U> 
-        where T: User 
+    public interface IAuthService<U> 
         where U: Role
     {
         Task<IdentityResult> CreateAsync(SignUpDto signUpDto);
-        Task<IdentityResult> AddToRoleAsync(string userEmail, string roleName);
+        Task<IdentityResult> AddToRoleAsync(string userEmail);
     }
 }

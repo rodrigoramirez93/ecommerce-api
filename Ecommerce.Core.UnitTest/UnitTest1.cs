@@ -8,14 +8,7 @@ namespace Ecommerce.Core.UnitTest
         [Fact]
         public void Test1()
         {
-            //arrange
-            var roles = new Roles[2] { Roles.Admin, Roles.Employee };
 
-            //act
-            var result = HelperMethods.GetNames(roles);
-
-            //assert
-            Assert.Equal(2, result.Count);
         }
     }
 }

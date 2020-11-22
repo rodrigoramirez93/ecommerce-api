@@ -46,7 +46,6 @@ namespace API
             services.AddTransient<IJwtService, JwtService>();
             services.AddTransient<IServiceDto<ProductDto>, ProductServiceDto>();
             services.AddTransient(typeof(IDtoValidator<,>), typeof(DtoValidator<,>));
-            services.AddTransient<IFilterBuilder, FilterBuilder>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -118,10 +117,6 @@ namespace API
                 .AddEntityFrameworkStores<DatabaseContext>()
                 .AddDefaultTokenProviders();
 
-
-            services.AddScoped<IAdminAuthService, AdminAuthService>();
-            services.AddScoped<IManagerAuthService, ManagerAuthService>();
-            services.AddScoped<IEmployeeAuthService, EmployeeAuthService>();
             services.AddScoped<ILoginService, LoginService>();
 
             services.AddAuth(_appsettings.JwtSettings);

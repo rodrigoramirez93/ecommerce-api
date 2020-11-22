@@ -15,19 +15,16 @@ namespace Ecommerce.Business.Services
         private readonly IMapper _mapper;
         private readonly IDtoValidator<ProductDtoValidator, ProductDto> _dtoValidator;
         private readonly IDtoValidator<ProductFilterDtoValidator, ProductFilterDto> _searchDtoValidator;
-        private readonly IFilterBuilder _filterBuilder;
         public ProductServiceDto(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IDtoValidator<ProductDtoValidator, ProductDto> dtoValidator,
-            IDtoValidator<ProductFilterDtoValidator, ProductFilterDto> searchDtoValidator,
-            IFilterBuilder filterBuilder)
+            IDtoValidator<ProductFilterDtoValidator, ProductFilterDto> searchDtoValidator)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _dtoValidator = dtoValidator;
             _searchDtoValidator = searchDtoValidator;
-            _filterBuilder = filterBuilder;
         }
 
         public int Create(ProductDto entity)
@@ -53,10 +50,7 @@ namespace Ecommerce.Business.Services
 
         public IEnumerable<ProductDto> Read(ProductFilterDto productFilterDto)
         {
-            _searchDtoValidator.Validate(productFilterDto, RuleSets.Search);
-            var filterConditions = _filterBuilder.Build(productFilterDto);
-            var products = _unitOfWork.Products.Read(filterConditions);
-            return _mapper.Map<IEnumerable<ProductDto>>(products);
+            return null;
         }
 
         public IEnumerable<ProductDto> Read()
