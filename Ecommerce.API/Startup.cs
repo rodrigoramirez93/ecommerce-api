@@ -1,8 +1,8 @@
 using AutoMapper;
 using Ecommerce.API.Extensions;
+using Ecommerce.API.Filters;
 using Ecommerce.Business.Dto;
 using Ecommerce.Business.Dto.Mappings;
-using Ecommerce.Business.Dto.Validators;
 using Ecommerce.Business.Services;
 using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Core;
@@ -16,11 +16,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Security;
+using System.Reflection;
 
 namespace API
 {
@@ -78,6 +76,8 @@ namespace API
             });
 
             services.AddScoped<IRepository<Product>, ProductRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
 
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<DatabaseContext>(options =>
@@ -99,8 +99,7 @@ namespace API
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new ProductProfile());
-                mc.AddProfile(new UserProfile());
+                mc.AddMaps(Assembly.GetAssembly(typeof(UserProfile)));
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -120,6 +119,11 @@ namespace API
             services.AddScoped<ILoginService, LoginService>();
 
             services.AddAuth(_appsettings.JwtSettings);
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(AuthorizationFilter));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

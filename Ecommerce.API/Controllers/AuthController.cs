@@ -16,14 +16,15 @@ namespace Ecommerce.API
         private readonly ILogger<ProductController> _logger;
         private readonly ILoginService _loginService;
 
-        public AuthController(ILogger<ProductController> logger,
+        public AuthController(
+            ILogger<ProductController> logger,
             ILoginService loginService)
         {
             _logger = logger;
             _loginService = loginService;
         }
 
-        [HttpPost("signIn")]
+        [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn(SignInDto signInDto)
         {
             var response = await _loginService.GetToken(signInDto);

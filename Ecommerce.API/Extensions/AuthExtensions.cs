@@ -15,7 +15,14 @@ namespace Ecommerce.API.Extensions
             JwtSettings jwtSettings)
         {
             services
-                .AddAuthorization()
+                .AddAuthorization(options =>
+                {
+                    options.AddPolicy(Claims.CAN_CREATE_PRODUCT, policy => policy.RequireClaim(Claims.CAN_CREATE_PRODUCT));
+                    options.AddPolicy(Claims.CAN_DELETE_PRODUCT, policy => policy.RequireClaim(Claims.CAN_CREATE_PRODUCT));
+                    options.AddPolicy(Claims.CAN_READ_PRODUCT, policy => policy.RequireClaim(Claims.CAN_READ_PRODUCT));
+                    options.AddPolicy(Claims.CAN_UPDATE_PRODUCT, policy => policy.RequireClaim(Claims.CAN_UPDATE_PRODUCT));
+                })
+
                 .AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -8,6 +8,5 @@ namespace Ecommerce.Domain.Model
     {
         public string Firstname { get; set; }
         public string Lastname { get; set; }
-        public Organization Organization { get; set; }
     }
 }
