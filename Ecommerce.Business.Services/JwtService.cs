@@ -2,6 +2,7 @@
 using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Core;
 using Ecommerce.Domain.Model;
+using Ecommerce.Domain.Model.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;

@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Business.Dto;
 using Ecommerce.Domain.Model;
+using Ecommerce.Domain.Model.Identity;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;

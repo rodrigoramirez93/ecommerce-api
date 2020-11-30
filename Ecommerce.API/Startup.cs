@@ -8,6 +8,7 @@ using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Core;
 using Ecommerce.Domain.DAL;
 using Ecommerce.Domain.Model;
+using Ecommerce.Domain.Model.Identity;
 using Ecommerce.Domain.Repositories;
 using Ecommerce.Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -78,12 +79,13 @@ namespace API
             services.AddScoped<IRepository<Product>, ProductRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IContextService, ContextService>();
 
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseSqlServer(_appsettings.ConnectionStrings.DefaultConnectionString);
-            }, ServiceLifetime.Singleton);
+            }, ServiceLifetime.Scoped);
 
 
             services.AddCors(options =>

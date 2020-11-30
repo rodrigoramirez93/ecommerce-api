@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Ecommerce.Domain.Repositories.Interfaces
 {
-    public interface IRepository<T> where T: BaseEntity
+    public interface IRepository<T> where T: class
     {
         int Create(T entity);
 

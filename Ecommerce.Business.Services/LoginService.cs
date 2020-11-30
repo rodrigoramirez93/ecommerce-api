@@ -1,6 +1,9 @@
-﻿using Ecommerce.Business.Dto;
+﻿using AutoMapper;
+using Ecommerce.Business.Dto;
 using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Domain.Model;
+using Ecommerce.Domain.Model.Identity;
+using Ecommerce.Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,17 +22,22 @@ namespace Ecommerce.Business.Services
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly IJwtService _jwtService;
+        private readonly IContextService _contextService;
+        private readonly IMapper _mapper;
 
         public LoginService(
             UserManager<User> userManager,
             RoleManager<Role> roleManager,
-            IJwtService jwtService)
+            IJwtService jwtService,
+            IContextService contextService,
+            IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _jwtService = jwtService;
+            _contextService = contextService;
+            _mapper = mapper;
         }
-
 
         public async Task<TokenDtoResponse> GetToken(SignInDto signInDto)
         {
@@ -56,11 +64,16 @@ namespace Ecommerce.Business.Services
             };
 
             var rolesNames = await _userManager.GetRolesAsync(user);
-            var roles = _roleManager.Roles.Where(role => rolesNames.Contains(role.Name)).ToList();
-            var userClaims = new List<Claim>();
+            var rolesIds = _roleManager.Roles.Where(role => rolesNames.Contains(role.Name)).Select(x => x.Id).ToList();
+            var roleClaims = new List<RoleClaim>();
 
-            var tasks = roles.Select(async (role) => userClaims.AddRange((await _roleManager.GetClaimsAsync(role))));
-            await Task.WhenAll(tasks);
+            _contextService.Do((context) =>
+            {
+                roleClaims = context.RoleClaims.Where(x => rolesIds.Contains(x.RoleId)).ToList();
+            });
+            
+            var userClaims = roleClaims.Select(claim => new Claim(claim.ClaimType, claim.ClaimValue)).ToList();
+
             claims.AddRange(userClaims);
 
             var token = _jwtService.GenerateJwt(user, claims);

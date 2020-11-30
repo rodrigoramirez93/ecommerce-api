@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Core;
 using Ecommerce.Domain.DAL;
 using Ecommerce.Domain.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ using System.Linq.Expressions;
 
 namespace Ecommerce.Domain.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T>
+        where T : BaseEntity
     {
         internal DatabaseContext _context;
         internal DbSet<T> _dbSet;

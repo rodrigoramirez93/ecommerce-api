@@ -6,6 +6,6 @@ namespace Ecommerce.Business.Services.Queries
 {
     public static class Common
     {
-        public static T MustExist<T>(this T source, string exceptionMessage = "Entity doesn't exists") => source ?? throw new ArgumentNullException(exceptionMessage);
+        public static T MustExist<T>(this T source, string exceptionMessage = "Entity doesn't exists") => source ?? throw new Exception(exceptionMessage);
     }
 }

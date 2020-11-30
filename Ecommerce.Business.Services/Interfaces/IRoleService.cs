@@ -9,12 +9,12 @@ namespace Ecommerce.Business.Services.Interfaces
 {
     public interface IRoleService
     {
-        Task<List<RoleDto>> GetAsync();
-        Task<RoleDto> GetByIdAsync(int roleId);
-        Task<IdentityResult> UpdateAsync(string roleId, RoleDto roleDto);
-        Task<IdentityResult> CreateAsync(RoleDto roleDto);
-        Task<IdentityResult> AddClaimToRoleAsync(string roleId, ClaimDto claimDto);
-        Task<IdentityResult> RemoveClaimFromRoleAsync(string roleId, ClaimDto claimDto);
+        Task<List<ReadRoleDto>> GetAsync();
+        Task<ReadRoleDto> GetByIdAsync(int roleId);
+        Task<IdentityResult> UpdateAsync(string roleId, ReadRoleDto roleDto);
+        Task<IdentityResult> CreateAsync(CreateRoleDto roleDto);
+        Task<IdentityResult> AddClaimToRoleAsync(string roleId, AccessDto claimDto);
+        Task<IdentityResult> RemoveClaimFromRoleAsync(string roleId, string claimType);
         
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ecommerce.Domain.Model;
+using Ecommerce.Domain.Model.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,8 @@ namespace Ecommerce.Business.Dto.Mappings
     {
         public RoleProfile()
         {
-            CreateMap<RoleDto, Role>().ReverseMap();
+            CreateMap<ReadRoleDto, Role>().ReverseMap();
+            CreateMap<CreateRoleDto, Role>();
         }
     }
 }

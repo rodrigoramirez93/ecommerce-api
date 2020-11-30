@@ -5,9 +5,15 @@ using System.Text;
 
 namespace Ecommerce.Business.Dto
 {
-    public class RoleDto
+    public class ReadRoleDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<AccessDto> Claims { get; set; }
+    }
+
+    public class CreateRoleDto
     {
         public string Name { get; set; }
-        public List<ClaimDto> Claims { get; set; }
     }
 }

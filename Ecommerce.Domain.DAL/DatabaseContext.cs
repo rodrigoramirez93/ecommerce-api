@@ -1,11 +1,12 @@
 ﻿using Ecommerce.Domain.Model;
+using Ecommerce.Domain.Model.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
+using System.Reflection;
 
 namespace Ecommerce.Domain.DAL
 {
-    public class DatabaseContext: IdentityDbContext<User, Role, int>
+    public class DatabaseContext:  IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
     {
         public DatabaseContext(DbContextOptions options) : base(options)
         {
@@ -15,11 +16,10 @@ namespace Ecommerce.Domain.DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Organization>().HasData(DummyService.GetOrganizations());
             builder.Entity<Product>().HasData(DummyService.GetProductDummyData());
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         public DbSet<Product> Products { get; set; }
-        public DbSet<Organization> Organizations { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Ecommerce.Business.Dto
 {
-    public class ClaimDto
+    public class AccessDto
     {
-        public string ClaimType { get; set; }
-        public string ClaimValue { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }

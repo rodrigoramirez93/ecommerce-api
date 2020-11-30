@@ -38,28 +38,28 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRole([FromBody] RoleDto roleDto)
+        public async Task<IActionResult> CreateRole([FromBody] CreateRoleDto roleDto)
         {
             return new OkObjectResult(await _roleService.CreateAsync(roleDto));
         }
 
         [HttpPut("{roleId}")]
-        public async Task<IActionResult> UpdateRole(string roleId, [FromBody] RoleDto roleDto)
+        public async Task<IActionResult> UpdateRole(string roleId, [FromBody] ReadRoleDto roleDto)
         {
             return new OkObjectResult(await _roleService.UpdateAsync(roleId, roleDto));
         }
 
-        [HttpPost("{roleId}/Claim")]
-        public async Task<IActionResult> AddClaimToRole(string roleId, [FromBody] ClaimDto claimDto)
+        [HttpPost("{roleId}/Access")]
+        public async Task<IActionResult> AddClaimToRole(string roleId, [FromBody] AccessDto claimDto)
         {
             return new OkObjectResult(await _roleService.AddClaimToRoleAsync(roleId, claimDto));
         }
 
 
-        [HttpDelete("{roleId}/Claim/")]
-        public async Task<IActionResult> Delete(string roleId, ClaimDto claimDto)
+        [HttpDelete("{roleId}/Access")]
+        public async Task<IActionResult> Delete(string roleId, string access)
         {
-            return new OkObjectResult(await _roleService.RemoveClaimFromRoleAsync(roleId, claimDto));
+            return new OkObjectResult(await _roleService.RemoveClaimFromRoleAsync(roleId, access));
         }
     }
 }

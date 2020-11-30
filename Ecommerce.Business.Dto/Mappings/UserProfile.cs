@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ecommerce.Domain.Model;
+using Ecommerce.Domain.Model.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;

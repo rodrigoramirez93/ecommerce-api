@@ -2,6 +2,7 @@
 using Ecommerce.Business.Dto;
 using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Domain.Model;
+using Ecommerce.Domain.Model.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Domain.Model;
+using Ecommerce.Domain.Model.Identity;
 using System.Collections.Generic;
 
 namespace Ecommerce.Test.Core

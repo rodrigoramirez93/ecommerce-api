@@ -11,17 +11,6 @@ namespace Ecommerce.Domain.DAL
 
         }
 
-        internal static IEnumerable<Organization> GetOrganizations()
-        {
-            var list = new List<Organization>()
-            {
-                new Organization(){ Id = 1, Name = "Microsoft" },
-                new Organization(){ Id = 2, Name = "Amazon" }
-            };
-
-            return list;
-        }
-
         internal static IEnumerable<Product> GetProductDummyData()
         {
             var list = new List<Product>()
