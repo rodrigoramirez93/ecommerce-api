@@ -6,62 +6,51 @@ using Ecommerce.Core;
 using Ecommerce.Domain.Model;
 using Ecommerce.Domain.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Ecommerce.Business.Services
 {
-    public class ProductServiceDto : IServiceDto<ProductDto>
+    public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IDtoValidator<ProductDtoValidator, ProductDto> _dtoValidator;
-        private readonly IDtoValidator<ProductFilterDtoValidator, ProductFilterDto> _searchDtoValidator;
-        public ProductServiceDto(
+        public ProductService(
             IUnitOfWork unitOfWork,
-            IMapper mapper,
-            IDtoValidator<ProductDtoValidator, ProductDto> dtoValidator,
-            IDtoValidator<ProductFilterDtoValidator, ProductFilterDto> searchDtoValidator)
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _dtoValidator = dtoValidator;
-            _searchDtoValidator = searchDtoValidator;
         }
 
-        public int Create(ProductDto entity)
+        public async Task<CreatedProductDto> CreateAsync(ProductToCreateDto entity)
         {
-            _dtoValidator.Validate(entity, RuleSets.Create);
             var product = _mapper.Map<Product>(entity);
-            _unitOfWork.Products.Create(product);
+            await _unitOfWork.Products.Create(product);
             _unitOfWork.Commit();
-            return product.Id;
+            return _mapper.Map<CreatedProductDto>(product);
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            _unitOfWork.Products.Delete(id);
+            await _unitOfWork.Products.DeleteAsync(nameof(Constants.EntityNames.Product), id);
             _unitOfWork.Commit();
         }
 
-        public ProductDto Read(int id)
+        public async Task<ProductDto> ReadAsync(int id)
         {
-            var product = _unitOfWork.Products.Read(id);
+            var product = await _unitOfWork.Products.ReadAsync(id);
+            product.MustExist(nameof(Constants.EntityNames.Product), id);
             return _mapper.Map<ProductDto>(product);
         }
 
-        public IEnumerable<ProductDto> Read(ProductFilterDto productFilterDto)
+        public async Task<IEnumerable<ProductDto>> ReadAsync()
         {
-            return null;
-        }
-
-        public IEnumerable<ProductDto> Read()
-        {
-            var products = _unitOfWork.Products.Read();
+            var products = await _unitOfWork.Products.ReadAsync();
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
         public ProductDto Update(ProductDto entity)
         {
-            _dtoValidator.Validate(entity, RuleSets.Update);
             var product = _mapper.Map<Product>(entity);
             _unitOfWork.Products.Update(product);
             _unitOfWork.Commit();

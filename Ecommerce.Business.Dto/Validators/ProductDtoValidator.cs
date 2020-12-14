@@ -16,15 +16,4 @@ namespace Ecommerce.Business.Dto.Validators
             });
         }
     }
-
-    public class ProductFilterDtoValidator : AbstractValidator<ProductFilterDto>
-    {
-        public ProductFilterDtoValidator()
-        {
-            RuleSet(RuleSets.Search, () =>
-            {
-                RuleFor(_ => _.Name).MaximumLength(Constants.Validation.Max.Name);
-            });
-        }
-    }
 }

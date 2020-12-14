@@ -12,6 +12,11 @@ namespace Ecommerce.Business.Dto
         public List<AccessDto> Claims { get; set; }
     }
 
+    public class UpdateRoleDto
+    {
+        public string Name { get; set; }
+    }
+
     public class CreateRoleDto
     {
         public string Name { get; set; }

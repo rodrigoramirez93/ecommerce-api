@@ -17,10 +17,19 @@ namespace Ecommerce.API.Extensions
             services
                 .AddAuthorization(options =>
                 {
+                    //product
                     options.AddPolicy(Claims.CAN_CREATE_PRODUCT, policy => policy.RequireClaim(Claims.CAN_CREATE_PRODUCT, "true"));
                     options.AddPolicy(Claims.CAN_DELETE_PRODUCT, policy => policy.RequireClaim(Claims.CAN_CREATE_PRODUCT, "true"));
                     options.AddPolicy(Claims.CAN_READ_PRODUCT, policy => policy.RequireClaim(Claims.CAN_READ_PRODUCT, "true"));
                     options.AddPolicy(Claims.CAN_UPDATE_PRODUCT, policy => policy.RequireClaim(Claims.CAN_UPDATE_PRODUCT, "true"));
+                    //role
+                    options.AddPolicy(Claims.CAN_CREATE_ROLE, policy => policy.RequireClaim(Claims.CAN_CREATE_ROLE, "true"));
+                    options.AddPolicy(Claims.CAN_READ_ROLE, policy => policy.RequireClaim(Claims.CAN_READ_ROLE, "true"));
+                    options.AddPolicy(Claims.CAN_UPDATE_ROLE, policy => policy.RequireClaim(Claims.CAN_UPDATE_ROLE, "true"));
+                    options.AddPolicy(Claims.CAN_DELETE_ROLE, policy => policy.RequireClaim(Claims.CAN_DELETE_ROLE, "true"));
+                    options.AddPolicy(Claims.CAN_ADD_CLAIM_TO_ROLE, policy => policy.RequireClaim(Claims.CAN_ADD_CLAIM_TO_ROLE, "true"));
+                    options.AddPolicy(Claims.CAN_REMOVE_CLAIM_TO_ROLE, policy => policy.RequireClaim(Claims.CAN_REMOVE_CLAIM_TO_ROLE, "true"));
+                    options.AddPolicy(Claims.CAN_READ_CLAIMS, policy => policy.RequireClaim(Claims.CAN_READ_CLAIMS, "true"));
                 })
 
                 .AddAuthentication(options =>

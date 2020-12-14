@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-
+using System.Threading.Tasks;
 
 namespace Ecommerce.Domain.Repositories
 {
@@ -23,21 +23,21 @@ namespace Ecommerce.Domain.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public int Create(T entity)
+        public async Task<int> Create(T entity)
         {
-            _context.Add(entity);
+            await _context.AddAsync(entity);
             return entity.Id;
         }
 
-        public T Read(int id)
+        public async Task<T> ReadAsync(int id)
         {
-            var entity = _dbSet.FirstOrDefault(_ => _.Id == id);
+            var entity = await _dbSet.FirstOrDefaultAsync(_ => _.Id == id);
             return entity;
         }
 
-        public IEnumerable<T> Read(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> ReadAsync(Expression<Func<T, bool>> predicate)
         {
-            return _dbSet.Where(predicate).ToList();
+            return await _dbSet.Where(predicate).ToListAsync();
         }
 
         public T Update(T entity)
@@ -48,15 +48,16 @@ namespace Ecommerce.Domain.Repositories
             return entity;
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(string entityName, int id)
         {
-            var entity = _dbSet.First(_ => _.Id == id);
+            var entity = await _dbSet.FirstOrDefaultAsync(_ => _.Id == id);
+            entity.MustExist(entityName, id);
             _context.Remove(entity);
         }
 
-        public IEnumerable<T> Read()
+        public async Task<IEnumerable<T>> ReadAsync()
         {
-            return _dbSet.ToList();
+            return await _dbSet.ToListAsync();
         }
     }
 }

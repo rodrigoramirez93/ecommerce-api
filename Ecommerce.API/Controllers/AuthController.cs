@@ -33,7 +33,7 @@ namespace Ecommerce.API
             {
                 HttpStatusCode.BadRequest => BadRequest("Email or password incorrect."),
                 HttpStatusCode.NotFound => NotFound("Username not found"),
-                HttpStatusCode.OK => Ok(response),
+                HttpStatusCode.OK => Ok(response.Token),
                 _ => BadRequest("Something went wrong"),
             };
         }

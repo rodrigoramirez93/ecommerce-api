@@ -2,21 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Ecommerce.Domain.Repositories.Interfaces
 {
     public interface IRepository<T> where T: class
     {
-        int Create(T entity);
+        Task<int> Create(T entity);
 
-        T Read(int id);
+        Task<T> ReadAsync(int id);
 
-        IEnumerable<T> Read();
-
-        IEnumerable<T> Read(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> ReadAsync(Expression<Func<T, bool>> predicate);
 
         T Update(T entity);
 
-        void Delete(int id);
+        Task DeleteAsync(string entityName, int id);
+
+        Task<IEnumerable<T>> ReadAsync();
     }
 }

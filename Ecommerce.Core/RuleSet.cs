@@ -8,6 +8,5 @@ namespace Ecommerce.Core
     {
         public static string Create { get; } = "Create";
         public static string Update { get; } = "Update";
-        public static string Search { get; } = "Search";
     }
 }

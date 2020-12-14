@@ -11,10 +11,11 @@ namespace Ecommerce.Business.Services.Interfaces
     {
         Task<List<ReadRoleDto>> GetAsync();
         Task<ReadRoleDto> GetByIdAsync(int roleId);
-        Task<IdentityResult> UpdateAsync(string roleId, ReadRoleDto roleDto);
+        Task<IdentityResult> UpdateAsync(string roleId, UpdateRoleDto roleDto);
         Task<IdentityResult> CreateAsync(CreateRoleDto roleDto);
         Task<IdentityResult> AddClaimToRoleAsync(string roleId, AccessDto claimDto);
         Task<IdentityResult> RemoveClaimFromRoleAsync(string roleId, string claimType);
-        
+        Task<IdentityResult> DeleteAsync(int roleId);
+        List<AccessDto> GetAccessClaims();
     }
 }

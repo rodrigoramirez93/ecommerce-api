@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Business.Dto;
 using Ecommerce.Business.Services.Interfaces;
+using Ecommerce.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -26,37 +28,56 @@ namespace Ecommerce.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = Claims.CAN_READ_ROLE)]
         public async Task<IActionResult> GetRole()
         {
             return new OkObjectResult(await _roleService.GetAsync());
         }
 
         [HttpGet("{id}")]
+        [Authorize(Policy = Claims.CAN_READ_ROLE)]
         public async Task<IActionResult> GetRoleById(int id)
         {
             return new OkObjectResult(await _roleService.GetByIdAsync(id));
         }
 
+        [HttpGet("Claims")]
+        [Authorize(Policy = Claims.CAN_READ_CLAIMS)]
+        public IActionResult GetClaims()
+        {
+            return new OkObjectResult(_roleService.GetAccessClaims());
+        }
+
         [HttpPost]
+        [Authorize(Policy = Claims.CAN_CREATE_ROLE)]
         public async Task<IActionResult> CreateRole([FromBody] CreateRoleDto roleDto)
         {
             return new OkObjectResult(await _roleService.CreateAsync(roleDto));
         }
 
         [HttpPut("{roleId}")]
-        public async Task<IActionResult> UpdateRole(string roleId, [FromBody] ReadRoleDto roleDto)
+        [Authorize(Policy = Claims.CAN_UPDATE_ROLE)]
+        public async Task<IActionResult> UpdateRole(string roleId, [FromBody] UpdateRoleDto roleDto)
         {
             return new OkObjectResult(await _roleService.UpdateAsync(roleId, roleDto));
         }
 
+        [HttpDelete("{roleId}")]
+        [Authorize(Policy = Claims.CAN_DELETE_ROLE)]
+        public async Task<IActionResult> DeleteRole(int roleId)
+        {
+            return new OkObjectResult(await _roleService.DeleteAsync(roleId));
+        }
+
         [HttpPost("{roleId}/Access")]
+        [Authorize(Policy = Claims.CAN_ADD_CLAIM_TO_ROLE)]
         public async Task<IActionResult> AddClaimToRole(string roleId, [FromBody] AccessDto claimDto)
         {
             return new OkObjectResult(await _roleService.AddClaimToRoleAsync(roleId, claimDto));
         }
 
-
         [HttpDelete("{roleId}/Access")]
+        [Authorize(Policy = Claims.CAN_DELETE_ROLE)]
         public async Task<IActionResult> Delete(string roleId, string access)
         {
             return new OkObjectResult(await _roleService.RemoveClaimFromRoleAsync(roleId, access));

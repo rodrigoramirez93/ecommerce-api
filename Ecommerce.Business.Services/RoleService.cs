@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Ecommerce.Business.Dto;
 using Ecommerce.Business.Services.Interfaces;
-using Ecommerce.Business.Services.Queries;
 using Ecommerce.Core;
 using Ecommerce.Domain.Model.Identity;
 using Ecommerce.Domain.Repositories;
@@ -33,18 +32,25 @@ namespace Ecommerce.Business.Services
             _contextService = contextService;
         }
 
-
         public async Task<IdentityResult> AddClaimToRoleAsync(string roleId, AccessDto access)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
+            role.MustExist(nameof(Constants.EntityNames.Role), roleId);
             var claim = new Claim(access.Name, access.Value);
             return await _roleManager.AddClaimAsync(role, claim);
         }
 
-        public Task<IdentityResult> CreateAsync(CreateRoleDto roleDto)
+        public async Task<IdentityResult> CreateAsync(CreateRoleDto roleDto)
         {
             var role = _mapper.Map<Role>(roleDto);
-            return _roleManager.CreateAsync(role);
+            return await _roleManager.CreateAsync(role);
+        }
+
+        public async Task<IdentityResult> DeleteAsync(int roleId)
+        {
+            var role = await _roleManager.Roles.Where(role => role.Id == roleId).FirstOrDefaultAsync();
+            role.MustExist(nameof(Constants.EntityNames.Role), roleId);
+            return await _roleManager.DeleteAsync(role);
         }
 
         public async Task<List<ReadRoleDto>> GetAsync()
@@ -68,10 +74,16 @@ namespace Ecommerce.Business.Services
 
         public async Task<ReadRoleDto> GetByIdAsync(int roleId)
         {
+            var role = await _roleManager.Roles
+                .Where(role => role.Id == roleId)
+                .FirstOrDefaultAsync();
+
+            role.MustExist(nameof(Constants.EntityNames.Role), roleId);
+
             var claims = new List<RoleClaim>();
+
             _contextService.Do((context) => claims = context.RoleClaims.ToList());
-            var role = await _roleManager.Roles.Where(role => role.Id == roleId).FirstOrDefaultAsync();
-            role.MustExist(Messages.Error.NotFound("role"));
+
             var result = new ReadRoleDto()
             {
                 Id = role.Id,
@@ -81,19 +93,27 @@ namespace Ecommerce.Business.Services
             return result;
         }
 
+        public List<AccessDto> GetAccessClaims()
+        {
+            var claims = new List<RoleClaim>();
+            _contextService.Do((context) => claims = context.RoleClaims.ToList());
+            return _mapper.Map<List<AccessDto>>(claims).ToList();
+        }
+
         public async Task<IdentityResult> RemoveClaimFromRoleAsync(string roleId, string claimType)
         {
             var role = await _roleManager.FindByIdAsync(roleId);
-            role.MustExist(Messages.Error.NotFound("role"));
+            role.MustExist(roleId);
             var claims = await _roleManager.GetClaimsAsync(role);
             var claim = claims.Where(claim => claim.Type == claimType).FirstOrDefault();
-            claim.MustExist(Messages.Error.NotFound("claim"));
+            claim.MustExist(nameof(Constants.PropertyNames.Access), nameof(Constants.PropertyValues.Name), claimType);
             return await _roleManager.RemoveClaimAsync(role, claim);
         }
 
-        public async Task<IdentityResult> UpdateAsync(string roleId, ReadRoleDto roleDto)
+        public async Task<IdentityResult> UpdateAsync(string roleId, UpdateRoleDto roleDto)
         {
             var roleToUpdate = await _roleManager.FindByIdAsync(roleId);
+            roleToUpdate.MustExist(nameof(Constants.EntityNames.Role), roleId);
             roleToUpdate.Name = roleDto.Name;
             return await _roleManager.UpdateAsync(roleToUpdate);
         }

@@ -39,12 +39,9 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<Appsettings>(Configuration);
-
             services.AddControllers().AddNewtonsoftJson();
-
             services.AddTransient<IJwtService, JwtService>();
-            services.AddTransient<IServiceDto<ProductDto>, ProductServiceDto>();
-            services.AddTransient(typeof(IDtoValidator<,>), typeof(DtoValidator<,>));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -80,6 +77,7 @@ namespace API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IContextService, ContextService>();
+            services.AddScoped<IProductService, ProductService>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<DatabaseContext>(options =>
@@ -146,6 +144,8 @@ namespace API
             app.UseRouting();
 
             app.UseCors("default");
+
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseAuth();
 

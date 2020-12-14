@@ -4,6 +4,7 @@ using Ecommerce.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace Ecommerce.API
 {
@@ -13,9 +14,9 @@ namespace Ecommerce.API
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
-        private readonly IServiceDto<ProductDto> _productService;
+        private readonly IProductService _productService;
 
-        public ProductController(ILogger<ProductController> logger, IServiceDto<ProductDto> productService)
+        public ProductController(ILogger<ProductController> logger, IProductService productService)
         {
             _logger = logger;
             _productService = productService;
@@ -23,45 +24,24 @@ namespace Ecommerce.API
 
         [HttpPost]
         [Authorize(Policy = Claims.CAN_CREATE_PRODUCT)]
-        public IActionResult Post(ProductDto product)
+        public async Task<IActionResult> Post(ProductToCreateDto product)
         {
-            return Ok(_productService.Create(product));
+            var createdProduct = await _productService.CreateAsync(product);
+            return CreatedAtAction(nameof(GetById), new { id = createdProduct.Id }, createdProduct);
+        }
+        
+        [HttpGet("{id}")]
+        [Authorize(Policy = Claims.CAN_READ_PRODUCT)]
+        public async Task<IActionResult> GetById(int id)
+        {
+            return Ok(await _productService.ReadAsync(id));
         }
 
         [HttpGet]
         [Authorize(Policy = Claims.CAN_READ_PRODUCT)]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> GetAll()
         {
-            var product = _productService.Read(id);
-            
-            if (product == null)
-                return NotFound();
-
-            return Ok(product);
-        }
-
-        [HttpGet("All")]
-        [Authorize(Policy = Claims.CAN_READ_PRODUCT)]
-        public IActionResult Get()
-        {
-            var product = _productService.Read();
-
-            if (product == null)
-                return NotFound();
-
-            return Ok(product);
-        }
-
-        [HttpGet("Filter")]
-        [Authorize(Policy = Claims.CAN_READ_PRODUCT)]
-        public IActionResult Get([FromQuery] ProductFilterDto productFilterDto)
-        {
-            var product = _productService.Read(productFilterDto);
-
-            if (product == null)
-                return NotFound();
-
-            return Ok(product);
+            return Ok(await _productService.ReadAsync());
         }
 
         [HttpPut]
@@ -73,9 +53,9 @@ namespace Ecommerce.API
     
         [HttpDelete]
         [Authorize(Policy = Claims.CAN_DELETE_PRODUCT)]
-        public IActionResult Delete([FromQuery] int id)
+        public async Task<IActionResult> Delete([FromQuery] int id)
         {
-            _productService.Delete(id);
+            await _productService.DeleteAsync(id);
             return Ok(id);
         }
     }

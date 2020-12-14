@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Ecommerce.Domain.Repositories\Ecommerce.Domain.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
 </Project>

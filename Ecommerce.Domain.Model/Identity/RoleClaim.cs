@@ -8,5 +8,6 @@ namespace Ecommerce.Domain.Model.Identity
 {
     public class RoleClaim : IdentityRoleClaim<int>
     {
+        public string Description { get; set; }
     }
 }

@@ -16,7 +16,9 @@ namespace Ecommerce.Business.Dto.Mappings
                 .ForMember(x => x.Value, y => y.MapFrom(map => map.Value))
                 .ReverseMap();
 
-            CreateMap<RoleClaim, AccessDto>();
+            CreateMap<RoleClaim, AccessDto>()
+                .ForMember(x => x.Name, y => y.MapFrom(map => map.ClaimType))
+                .ForMember(x => x.Value, y => y.MapFrom(map => map.ClaimValue));
         }
     }
 }

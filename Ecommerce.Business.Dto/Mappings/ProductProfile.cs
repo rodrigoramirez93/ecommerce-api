@@ -11,6 +11,8 @@ namespace Ecommerce.Business.Dto.Mappings
         public ProductProfile()
         {
             CreateMap<ProductDto, Product>().ReverseMap();
+            CreateMap<ProductToCreateDto, Product>();
+            CreateMap<Product, CreatedProductDto>();
         }
     }
 }
