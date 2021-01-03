@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Ecommerce.Business.Dto;
+using Ecommerce.Business.Services.ExtensionMethods;
 using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Domain.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -38,7 +41,11 @@ namespace Ecommerce.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(SignUpDto signUpDto)
         {
-            return new OkObjectResult(await _userService.CreateAsync(signUpDto));
+            var response = await _userService.CreateAsync(signUpDto);
+            if (!response.Succeeded)
+                return Problem(detail: response.Errors.ToProblemDescription(), statusCode: 400);
+
+            return Ok(response);
         }
 
         [HttpPut("{id}")]

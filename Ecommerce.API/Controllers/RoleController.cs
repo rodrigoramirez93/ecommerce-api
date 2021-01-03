@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class RoleController : ControllerBase
     {
