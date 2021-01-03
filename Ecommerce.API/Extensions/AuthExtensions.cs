@@ -30,6 +30,12 @@ namespace Ecommerce.API.Extensions
                     options.AddPolicy(Claims.CAN_ADD_CLAIM_TO_ROLE, policy => policy.RequireClaim(Claims.CAN_ADD_CLAIM_TO_ROLE, "true"));
                     options.AddPolicy(Claims.CAN_REMOVE_CLAIM_TO_ROLE, policy => policy.RequireClaim(Claims.CAN_REMOVE_CLAIM_TO_ROLE, "true"));
                     options.AddPolicy(Claims.CAN_READ_CLAIMS, policy => policy.RequireClaim(Claims.CAN_READ_CLAIMS, "true"));
+                    //users
+                    options.AddPolicy(Claims.CAN_READ_USERS, policy => policy.RequireClaim(Claims.CAN_READ_USERS, "true"));
+                    options.AddPolicy(Claims.CAN_CREATE_USERS, policy => policy.RequireClaim(Claims.CAN_CREATE_USERS, "true"));
+                    options.AddPolicy(Claims.CAN_UPDATE_USERS, policy => policy.RequireClaim(Claims.CAN_UPDATE_USERS, "true"));
+                    options.AddPolicy(Claims.CAN_DELETE_USERS, policy => policy.RequireClaim(Claims.CAN_DELETE_USERS, "true"));
+
                 })
 
                 .AddAuthentication(options =>

@@ -21,5 +21,10 @@ namespace Ecommerce.Core
         public const string CAN_ADD_CLAIM_TO_ROLE = "CAN_ADD_CLAIM_TO_ROLE";
         public const string CAN_REMOVE_CLAIM_TO_ROLE = "CAN_REMOVE_CLAIM_TO_ROLE";
 
+        //user
+        public const string CAN_READ_USERS = "CAN_READ_USERS";
+        public const string CAN_CREATE_USERS = "CAN_CREATE_USERS";
+        public const string CAN_UPDATE_USERS = "CAN_UPDATE_USERS";
+        public const string CAN_DELETE_USERS = "CAN_DELETE_USERS";
     }
 }
