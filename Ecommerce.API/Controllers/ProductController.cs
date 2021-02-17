@@ -46,7 +46,7 @@ namespace Ecommerce.API
 
         [HttpPut]
         [Authorize(Policy = Claims.CAN_UPDATE_PRODUCT)]
-        public IActionResult Update([FromBody] ProductDto productDto)
+        public IActionResult Update([FromBody] UpdateProductDto productDto)
         {
             return Ok(_productService.Update(productDto));
         }

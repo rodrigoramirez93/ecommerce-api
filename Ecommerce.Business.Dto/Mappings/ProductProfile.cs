@@ -13,6 +13,7 @@ namespace Ecommerce.Business.Dto.Mappings
             CreateMap<ProductDto, Product>().ReverseMap();
             CreateMap<ProductToCreateDto, Product>();
             CreateMap<Product, CreatedProductDto>();
+            CreateMap<UpdateProductDto, Product>();
         }
     }
 }

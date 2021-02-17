@@ -49,7 +49,7 @@ namespace Ecommerce.Business.Services
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
-        public ProductDto Update(ProductDto entity)
+        public ProductDto Update(UpdateProductDto entity)
         {
             var product = _mapper.Map<Product>(entity);
             _unitOfWork.Products.Update(product);

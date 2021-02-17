@@ -14,6 +14,11 @@ namespace Ecommerce.Business.Dto
         public int Stock { get; set; }
     }
 
+    public class UpdateProductDto : ProductDto
+    {
+        public int Id { get; set; }
+    }
+
     public class ProductToCreateDto : ProductDto
     {
 

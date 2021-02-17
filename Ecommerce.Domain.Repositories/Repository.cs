@@ -42,9 +42,8 @@ namespace Ecommerce.Domain.Repositories
 
         public T Update(T entity)
         {
-            _dbSet.Attach(entity);
-            var entry = _context.Entry(entity);
-            entry.State = EntityState.Modified;
+            var entityToUpdate = _context.Set<T>().Find(entity.Id);
+            _context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
             return entity;
         }
 
