@@ -40,9 +40,10 @@ namespace Ecommerce.Domain.Repositories
             return await _dbSet.Where(predicate).ToListAsync();
         }
 
-        public T Update(T entity)
+        public async Task<T> UpdateAsync(string entityName, T entity)
         {
-            var entityToUpdate = _context.Set<T>().Find(entity.Id);
+            var entityToUpdate = await _context.Set<T>().FindAsync(entity.Id);
+            entityToUpdate.MustExist(entityName);
             _context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
             return entity;
         }

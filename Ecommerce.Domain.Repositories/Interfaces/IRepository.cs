@@ -14,7 +14,7 @@ namespace Ecommerce.Domain.Repositories.Interfaces
 
         Task<IEnumerable<T>> ReadAsync(Expression<Func<T, bool>> predicate);
 
-        T Update(T entity);
+        Task<T> UpdateAsync(string entityName, T entity);
 
         Task DeleteAsync(string entityName, int id);
 

@@ -1,6 +1,7 @@
 using AutoMapper;
 using Ecommerce.Business.Dto;
 using Ecommerce.Business.Dto.Mappings;
+using Ecommerce.Core;
 using Ecommerce.Domain.DAL;
 using Ecommerce.Domain.Model;
 using Ecommerce.Domain.Repositories;
@@ -19,6 +20,7 @@ namespace Ecommerce.Business.Services.IntegrationTest
         private readonly DatabaseContext Context;
         private readonly IUnitOfWork UnitOfWork;
         private readonly IMapper Mapper;
+        private readonly int invalidId = 1;
 
         public ProductServiceTest()
         {
@@ -122,12 +124,56 @@ namespace Ecommerce.Business.Services.IntegrationTest
             var service = new ProductService(UnitOfWork, Mapper);
 
             //act
-            var newProduct = service.Update(new UpdateProductDto() { Id = product.Id, Name = "new name", Description = "new description" });
+            var newProduct = await service.UpdateAsync(new UpdateProductDto() { Id = product.Id, Name = "new name", Description = "new description" });
 
             //assert
             Assert.Equal("new name", newProduct.Name);
             Assert.Equal("new description", newProduct.Description);
         }
         #endregion
+
+        #region negative_test
+        
+        [Fact]
+        public async Task GivenProductService_WhenDeletingAProductThatDoesntExist_ShouldThrowError()
+        {
+            //act
+            var service = new ProductService(UnitOfWork, Mapper);
+
+            //assert
+            var exception = await Assert.ThrowsAsync<AppException>(async () => await service.DeleteAsync(invalidId));
+
+            Assert.IsType<AppException>(exception);
+            Assert.Equal(exception.Message, $"Product with Id {invalidId} does not exist. Please contact your administrator.");
+        }
+
+        [Fact]
+        public async Task GivenProductService_WhenReadingAProductThatDoesntExist_ShouldThrowError()
+        {
+            //act
+            var service = new ProductService(UnitOfWork, Mapper);
+
+            //assert
+            var exception = await Assert.ThrowsAsync<AppException>(async () => await service.ReadAsync(invalidId));
+
+            Assert.IsType<AppException>(exception);
+            Assert.Equal(exception.Message, $"Product with Id {invalidId} does not exist. Please contact your administrator.");
+        }
+
+        [Fact]
+        public async Task GivenProductService_WhenUpdatingAProductThatDoesntExist_ShouldThrowError()
+        {
+            //act
+            var service = new ProductService(UnitOfWork, Mapper);
+
+            //assert
+            var exception = await Assert.ThrowsAsync<AppException>(async () => await service.UpdateAsync(new UpdateProductDto() { Id = 1 }));
+
+            Assert.IsType<AppException>(exception);
+            Assert.Equal(exception.Message, $"Product does not exist. Please contact your administrator.");
+        }
+        #endregion
+
+
     }
 }

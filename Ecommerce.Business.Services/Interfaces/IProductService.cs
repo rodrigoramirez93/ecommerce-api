@@ -16,6 +16,6 @@ namespace Ecommerce.Business.Services.Interfaces
 
          Task<IEnumerable<ProductDto>> ReadAsync();
 
-         ProductDto Update(UpdateProductDto entity);
+         Task<ProductDto> UpdateAsync(UpdateProductDto entity);
     }
 }

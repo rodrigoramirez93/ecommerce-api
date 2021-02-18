@@ -49,10 +49,10 @@ namespace Ecommerce.Business.Services
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }
 
-        public ProductDto Update(UpdateProductDto entity)
+        public async Task<ProductDto> UpdateAsync(UpdateProductDto entity)
         {
             var product = _mapper.Map<Product>(entity);
-            _unitOfWork.Products.Update(product);
+            await _unitOfWork.Products.UpdateAsync(nameof(Constants.EntityNames.Product), product);
             _unitOfWork.Commit();
             return _mapper.Map<ProductDto>(product);
         }
