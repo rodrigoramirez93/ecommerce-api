@@ -11,7 +11,8 @@ namespace Ecommerce.Test.Core
 
     public enum UserType
     {
-        Valid
+        Valid,
+        Invalid
     }
 
     public enum OrganizationType

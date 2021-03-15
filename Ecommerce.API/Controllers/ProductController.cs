@@ -46,9 +46,9 @@ namespace Ecommerce.API
 
         [HttpPut]
         [Authorize(Policy = Claims.CAN_UPDATE_PRODUCT)]
-        public IActionResult Update([FromBody] UpdateProductDto productDto)
+        public async Task<IActionResult> Update([FromBody] UpdateProductDto productDto)
         {
-            return Ok(_productService.Update(productDto));
+            return Ok(await _productService.UpdateAsync(productDto));
         }
     
         [HttpDelete]

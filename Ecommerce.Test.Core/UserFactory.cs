@@ -6,21 +6,32 @@ namespace Ecommerce.Test.Core
 {
     public class UserFactory : EntityAbstractFactory<User, UserType>
     {
-        private User CreateBaseUser()
+        private User CreateValidUser()
+        {
+            return new User();
+        }
+
+        private User CreateInvalidUser()
         {
             return new User();
         }
 
         public override User CreateInstance(UserType options)
         {
-            var baseUser = CreateBaseUser();
+            User user = null;
 
-            return options switch
+            switch (options)
             {
-                UserType.Valid => baseUser,
-                //...some other possibilities
-                _ => baseUser
+                case UserType.Valid:
+                    user = CreateValidUser();
+                    break;
+                case UserType.Invalid:
+                    user = CreateInvalidUser();
+                    break;
+
             };
+
+            return user;
         }
     }
 }
