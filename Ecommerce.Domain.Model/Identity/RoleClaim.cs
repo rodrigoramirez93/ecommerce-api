@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Ecommerce.Core;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -8,6 +9,14 @@ namespace Ecommerce.Domain.Model.Identity
 {
     public class RoleClaim : IdentityRoleClaim<int>
     {
-        public string Description { get; set; }
+        public string Description 
+        {
+            get 
+            {
+                Claims.All.TryGetValue(ClaimType, out string description);
+                return description;
+            }
+            set { }
+        }
     }
 }
