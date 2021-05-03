@@ -10,6 +10,6 @@ namespace Ecommerce.Business.Services.Interfaces
     public interface IUserService
     {
         Task<IdentityResult> CreateAsync(SignUpDto signUpDto);
-        Task<List<UserDto>> GetAsync();
+        Task<List<UserDto>> GetAsync(SearchUserDto searchUser);
     }
 }

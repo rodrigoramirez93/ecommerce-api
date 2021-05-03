@@ -28,18 +28,20 @@ namespace Ecommerce.API.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        [Authorize(Policy = Claims.CAN_READ_USERS)]
-        public async Task<IActionResult> Get()
-        {
-            return new OkObjectResult(await _userService.GetAsync());
-        }
-
         [HttpGet("{id}")]
         [Authorize(Policy = Claims.CAN_READ_USERS)]
         public string Get(int id)
         {
             return "value";
+        }
+
+        [HttpGet]
+        [Authorize(Policy = Claims.CAN_READ_USERS)]
+        public async Task<IActionResult> Get(string id, string firstName, string lastName)
+        {
+            return new OkObjectResult(
+                await _userService.GetAsync(
+                    new SearchUserDto(id, firstName, lastName)));
         }
 
         [HttpPost]

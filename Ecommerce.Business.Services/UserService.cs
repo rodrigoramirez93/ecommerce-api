@@ -43,5 +43,16 @@ namespace Ecommerce.Business.Services
             var users = await _userManager.Users.ToListAsync();
             return _mapper.Map<List<UserDto>>(users);
         }
+
+        public async Task<List<UserDto>> GetAsync(SearchUserDto searchUser)
+        {
+            var users = new UserFilter(_userManager.Users)
+                .HasId(searchUser.Id)
+                .HasFirstName(searchUser.FirstName)
+                .HasLastName(searchUser.LastName)
+                .GetQuery();
+
+            return _mapper.Map<List<UserDto>>(users.ToList());
+        }
     }
 }

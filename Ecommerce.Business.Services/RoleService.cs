@@ -3,15 +3,12 @@ using Ecommerce.Business.Dto;
 using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Core;
 using Ecommerce.Domain.Model.Identity;
-using Ecommerce.Domain.Repositories;
 using Ecommerce.Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ecommerce.Business.Services
