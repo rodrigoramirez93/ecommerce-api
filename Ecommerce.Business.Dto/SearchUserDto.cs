@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ecommerce.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,14 +9,20 @@ namespace Ecommerce.Business.Dto
     {
         public SearchUserDto(string id = "", string firstname = "", string lastname = "")
         {
-            bool canParseId = int.TryParse(id, out int _id);
+            Id = (int) new NumberFormatter(id)
+                        .IsNullOrWhiteSpace()
+                        .CanBeParsed()
+                        .GetInteger(true);
 
-            Id = string.IsNullOrWhiteSpace(id) ?
-                0 : canParseId ?
-                    _id : 0;
-            
-            FirstName = firstname ?? "";
-            LastName = lastname ?? "";
+            FirstName = new StringFormatter(firstname)
+                            .IsNullOrWhiteSpace()
+                            .ToLower()
+                            .GetString();
+
+            LastName = new StringFormatter(lastname)
+                            .IsNullOrWhiteSpace()
+                            .ToLower()
+                            .GetString();
         }
 
         public int Id { get; }

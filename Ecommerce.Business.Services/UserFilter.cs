@@ -1,6 +1,8 @@
-﻿using Ecommerce.Domain.Model.Identity;
+﻿using Ecommerce.Core;
+using Ecommerce.Domain.Model.Identity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -20,12 +22,16 @@ namespace Ecommerce.Business.Services
                 _query = _query.Where(user => user.Id == id);
 
             return this;
-        }
+        }   
 
         public UserFilter HasFirstName(string firstName)
         {
             if (!string.IsNullOrWhiteSpace(firstName))
-                _query = _query.Where(user => user.Firstname.Contains(firstName));
+                _query = _query.Where(
+                    user => user.Firstname
+                        .ToLower()
+                        .Contains(firstName)
+                    );
 
             return this;
         }
@@ -33,7 +39,11 @@ namespace Ecommerce.Business.Services
         public UserFilter HasLastName(string lastName)
         {
             if (!string.IsNullOrWhiteSpace(lastName))
-                _query = _query.Where(user => user.Lastname.Contains(lastName));
+                _query = _query.Where(
+                    user => user.Lastname
+                        .ToLower()
+                        .Contains(lastName)
+                    );
 
             return this;
         }

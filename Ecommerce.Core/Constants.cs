@@ -8,6 +8,11 @@ namespace Ecommerce.Core
 {
     public static class Constants
     {
+        public static class Encoding
+        {
+            public static string ISO_8859_8 = "ISO-8859-8";
+        }
+
         public enum EntityNames
         {
             Product,
