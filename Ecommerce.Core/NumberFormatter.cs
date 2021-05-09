@@ -13,9 +13,6 @@ namespace Ecommerce.Core
         private bool _canBeParsed;
         private bool _isNullOrWhiteSpace;
 
-        //config
-        private bool _zeroIfNull;
-
         public NumberFormatter(string number)
         {
             _number = number;
@@ -36,7 +33,7 @@ namespace Ecommerce.Core
 
         public int? GetInteger(bool zeroIfNull = false)
         {
-            if (_isNullOrWhiteSpace && _zeroIfNull)
+            if (_isNullOrWhiteSpace && zeroIfNull)
                 return 0;
 
             return !_isNullOrWhiteSpace && _canBeParsed ? (int?)Convert.ToInt32(_parsedNumber) : null;
