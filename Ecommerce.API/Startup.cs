@@ -8,7 +8,6 @@ using Ecommerce.Business.Services.Interfaces;
 using Ecommerce.Core;
 using Ecommerce.Domain.DAL;
 using Ecommerce.Domain.Model;
-using Ecommerce.Domain.Model.Identity;
 using Ecommerce.Domain.Repositories;
 using Ecommerce.Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -40,7 +39,6 @@ namespace API
         {
             services.Configure<Appsettings>(Configuration);
             services.AddControllers().AddNewtonsoftJson();
-            services.AddTransient<IJwtService, JwtService>();
 
             services.AddSwaggerGen(c =>
             {
@@ -74,12 +72,10 @@ namespace API
             });
 
             services.AddScoped<IRepository<Product>, ProductRepository>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IContextService, ContextService>();
             services.AddScoped<IProductService, ProductService>();
-
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseSqlServer(_appsettings.ConnectionStrings.API);
@@ -99,26 +95,11 @@ namespace API
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
-                mc.AddMaps(Assembly.GetAssembly(typeof(UserProfile)));
+                mc.AddMaps(Assembly.GetAssembly(typeof(ProductProfile)));
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
-
-            services.AddIdentity<User, Role>(options =>
-            {
-                options.Password.RequiredLength = 8;
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-            })
-                .AddEntityFrameworkStores<DatabaseContext>()
-                .AddDefaultTokenProviders();
-
-            services.AddScoped<ILoginService, LoginService>();
 
             services.AddAuth(_appsettings.JwtSettings);
 

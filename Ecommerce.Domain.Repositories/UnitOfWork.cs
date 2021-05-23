@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Domain.DAL;
 using Ecommerce.Domain.Model;
-using Ecommerce.Domain.Model.Identity;
 using Ecommerce.Domain.Repositories.Interfaces;
 
 namespace Ecommerce.Domain.Repositories

@@ -5,17 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20201129200523_IdentityChanges.cs" />
-    <Compile Remove="Migrations\20201129200523_IdentityChanges.Designer.cs" />
-    <Compile Remove="Migrations\20201129203142_IdentityChanges.cs" />
-    <Compile Remove="Migrations\20201129203142_IdentityChanges.Designer.cs" />
-    <Compile Remove="Migrations\20201129204740_IdentityChanges.cs" />
-    <Compile Remove="Migrations\20201129204740_IdentityChanges.Designer.cs" />
-    <Compile Remove="Migrations\20201129204951_IdentityChanges.cs" />
-    <Compile Remove="Migrations\20201129204951_IdentityChanges.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
