@@ -82,7 +82,7 @@ namespace API
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<DatabaseContext>(options =>
             {
-                options.UseSqlServer(_appsettings.ConnectionStrings.DefaultConnectionString);
+                options.UseSqlServer(_appsettings.ConnectionStrings.API);
             }, ServiceLifetime.Scoped);
 
 

@@ -27,7 +27,8 @@ namespace Ecommerce.Core
 
     public partial class ConnectionStrings
     {
-        public string DefaultConnectionString { get; set; }
+        public string API { get; set; }
+        public string Identity { get; set; }
     }
 
     public partial class Logging
