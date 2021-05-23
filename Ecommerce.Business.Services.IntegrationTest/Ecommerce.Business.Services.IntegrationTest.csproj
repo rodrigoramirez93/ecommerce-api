@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -24,10 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ecommerce.Business.Dto\Ecommerce.Business.Dto.csproj" />
-    <ProjectReference Include="..\Ecommerce.Business.Services\Ecommerce.Business.Services.csproj" />
-    <ProjectReference Include="..\Ecommerce.Domain.DAL\Ecommerce.Domain.DAL.csproj" />
-    <ProjectReference Include="..\Ecommerce.Test.Core\Ecommerce.Test.Core.csproj" />
+    <ProjectReference Include="..\Ecommerce.BusinessLogic\Ecommerce.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Ecommerce.Core\Ecommerce.Core.csproj" />
+    <ProjectReference Include="..\Ecommerce.Domain\Ecommerce.Domain.csproj" />
   </ItemGroup>
 
 </Project>

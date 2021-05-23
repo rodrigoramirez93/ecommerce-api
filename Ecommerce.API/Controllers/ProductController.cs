@@ -1,5 +1,5 @@
-﻿using Ecommerce.Business.Dto;
-using Ecommerce.Business.Services.Interfaces;
+﻿using Ecommerce.BusinessLogic;
+using Ecommerce.BusinessLogic.Interfaces;
 using Ecommerce.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

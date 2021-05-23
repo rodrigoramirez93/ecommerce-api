@@ -1,13 +1,10 @@
 using AutoMapper;
-using Ecommerce.Business.Dto;
-using Ecommerce.Business.Dto.Mappings;
+using Ecommerce.BusinessLogic;
+using Ecommerce.BusinessLogic.Mappings;
 using Ecommerce.Core;
-using Ecommerce.Domain.DAL;
-using Ecommerce.Domain.Model;
-using Ecommerce.Domain.Repositories;
-using Ecommerce.Domain.Repositories.Interfaces;
+using Ecommerce.Domain;
+using Ecommerce.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

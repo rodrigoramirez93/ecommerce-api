@@ -13,18 +13,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ecommerce.Business.Dto\Ecommerce.Business.Dto.csproj" />
+    <ProjectReference Include="..\Ecommerce.BusinessLogic\Ecommerce.BusinessLogic.csproj" />
     <ProjectReference Include="..\Ecommerce.Core\Ecommerce.Core.csproj" />
-    <ProjectReference Include="..\Ecommerce.Domain.DAL\Ecommerce.Domain.DAL.csproj" />
-    <ProjectReference Include="..\Ecommerce.Domain.Repositories\Ecommerce.Domain.Repositories.csproj" />
-    <ProjectReference Include="..\ECommerce.Business.Services\Ecommerce.Business.Services.csproj" />
-    <ProjectReference Include="..\ECommerce.Business.Dto\Ecommerce.Business.Dto.csproj" />
   </ItemGroup>
 
 

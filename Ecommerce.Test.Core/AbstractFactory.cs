@@ -1,5 +1,4 @@
-﻿using Ecommerce.Core;
-using System;
+﻿using System;
 
 namespace Ecommerce.Test.Core
 {
