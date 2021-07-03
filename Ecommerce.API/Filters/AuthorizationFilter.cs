@@ -8,14 +8,7 @@ using System.Security.Claims;
 namespace Ecommerce.API.Filters
 {
     public class AuthorizationFilter : IAuthorizationFilter
-    {
-        private readonly ILoggedUserService _loggedUserService;
-        public AuthorizationFilter(
-            ILoggedUserService loggedUserService)
-        {
-            _loggedUserService = loggedUserService; 
-        }
-        
+    {   
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             bool hasAllowAnonymous =
@@ -25,6 +18,10 @@ namespace Ecommerce.API.Filters
                         .Any(attribute => attribute.GetType() == typeof(AllowAnonymousAttribute));
 
             if (hasAllowAnonymous)
+                return;
+
+            var _loggedUserService = context.HttpContext.RequestServices.GetService(typeof(ILoggedUserService)) as ILoggedUserService;
+            if (_loggedUserService == null)
                 return;
 
             var claims = ((ClaimsIdentity)context.HttpContext.User.Identity).Claims;
