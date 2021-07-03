@@ -25,8 +25,8 @@ namespace Ecommerce.API.Filters
                         .Any(attribute => attribute.GetType() == typeof(AllowAnonymousAttribute));
 
             if (hasAllowAnonymous)
-
                 return;
+
             var claims = ((ClaimsIdentity)context.HttpContext.User.Identity).Claims;
             var tenantClaim = claims.Where(x => x.Type == Constants.Claim.Tenant);
             var idClaim = claims.Where(x => x.Type == ClaimTypes.NameIdentifier).FirstOrDefault();

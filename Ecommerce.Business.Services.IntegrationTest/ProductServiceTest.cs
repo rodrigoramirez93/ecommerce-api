@@ -1,5 +1,6 @@
 using AutoMapper;
 using Ecommerce.BusinessLogic;
+using Ecommerce.BusinessLogic.Interfaces;
 using Ecommerce.BusinessLogic.Mappings;
 using Ecommerce.Core;
 using Ecommerce.Domain;
@@ -14,10 +15,11 @@ namespace Ecommerce.Business.Services.IntegrationTest
 {
     public class ProductServiceTest
     {
-        private readonly DatabaseContext Context;
-        private readonly IUnitOfWork UnitOfWork;
-        private readonly IMapper Mapper;
-        private readonly int invalidId = 1;
+        private readonly DatabaseContext _context;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly ILoggedUserService _loggedUserService;
+        private readonly int _invalidId = 1;
 
         public ProductServiceTest()
         {
@@ -25,12 +27,12 @@ namespace Ecommerce.Business.Services.IntegrationTest
               .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
               .Options;
 
-            Context = new DatabaseContext(options);
+            _context = new DatabaseContext(options);
 
-            var mapperConfig = new MapperConfiguration(cfg => cfg.AddMaps(typeof(ProductProfile).Assembly));
-            Mapper = new Mapper(mapperConfig);
-            UnitOfWork = new UnitOfWork(Context);
-
+            var _mapperConfig = new MapperConfiguration(cfg => cfg.AddMaps(typeof(ProductProfile).Assembly));
+            _mapper = new Mapper(_mapperConfig);
+            _unitOfWork = new UnitOfWork(_context);
+            _loggedUserService = new LoggedUserService();
         }
 
         #region positive_tests
@@ -39,17 +41,17 @@ namespace Ecommerce.Business.Services.IntegrationTest
         {
             //arrange
             var product = new ProductToCreateDto() { Name = "Product", Description = "Some Product", Price = 10, Stock = 1 };
-            var service = new ProductService(UnitOfWork, Mapper);
-            var beforeCount = await Context.Products.CountAsync();
+            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
+            var beforeCount = await _context.Products.CountAsync();
 
             //act
             var createdProduct = await service.CreateAsync(product);
-            var afterCount = await Context.Products.CountAsync();
+            var afterCount = await _context.Products.CountAsync();
 
             //assert
             Assert.NotEqual(beforeCount, afterCount);
             Assert.NotNull(createdProduct);
-            Assert.NotNull(await Context.Products.SingleOrDefaultAsync());
+            Assert.NotNull(await _context.Products.SingleOrDefaultAsync());
         }
 
         [Fact]
@@ -57,15 +59,15 @@ namespace Ecommerce.Business.Services.IntegrationTest
         {
             //arrange
             var product = new Product() { Name = "test", Description = "test" };
-            Context.Products.Add(product);
-            await Context.SaveChangesAsync();
-            var service = new ProductService(UnitOfWork, Mapper);
-            var beforeCount = await Context.Products.CountAsync();
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
+            var beforeCount = await _context.Products.CountAsync();
 
             //act
             await service.DeleteAsync(product.Id);
-            await Context.SaveChangesAsync();
-            var afterCount = await Context.Products.CountAsync();
+            await _context.SaveChangesAsync();
+            var afterCount = await _context.Products.CountAsync();
 
             //assert
             Assert.NotEqual(beforeCount, afterCount);
@@ -78,9 +80,9 @@ namespace Ecommerce.Business.Services.IntegrationTest
         {
             //arrange
             var product = new Product() { Name = "test", Description = "test" };
-            Context.Products.Add(product);
-            await Context.SaveChangesAsync();
-            var service = new ProductService(UnitOfWork, Mapper);
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
             
             //act
             var readProduct = await service.ReadAsync(product.Id);
@@ -97,9 +99,9 @@ namespace Ecommerce.Business.Services.IntegrationTest
             //arrange
             var firstProduct = new Product() { Name = "test", Description = "test" };
             var secondProduct = new Product() { Name = "test 2", Description = "test 2" };
-            Context.Products.AddRange(firstProduct, secondProduct);
-            await Context.SaveChangesAsync();
-            var service = new ProductService(UnitOfWork, Mapper);
+            _context.Products.AddRange(firstProduct, secondProduct);
+            await _context.SaveChangesAsync();
+            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
 
             //act
             var products = await service.ReadAsync();
@@ -116,9 +118,9 @@ namespace Ecommerce.Business.Services.IntegrationTest
         {
             //arrange
             var product = new Product() { Name = "test", Description = "test" };
-            Context.Products.Add(product);
-            await Context.SaveChangesAsync();
-            var service = new ProductService(UnitOfWork, Mapper);
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
 
             //act
             var newProduct = await service.UpdateAsync(new UpdateProductDto() { Id = product.Id, Name = "new name", Description = "new description" });
@@ -135,33 +137,33 @@ namespace Ecommerce.Business.Services.IntegrationTest
         public async Task GivenProductService_WhenDeletingAProductThatDoesntExist_ShouldThrowError()
         {
             //act
-            var service = new ProductService(UnitOfWork, Mapper);
+            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
 
             //assert
-            var exception = await Assert.ThrowsAsync<AppException>(async () => await service.DeleteAsync(invalidId));
+            var exception = await Assert.ThrowsAsync<AppException>(async () => await service.DeleteAsync(_invalidId));
 
             Assert.IsType<AppException>(exception);
-            Assert.Equal(exception.Message, $"Product with Id {invalidId} does not exist. Please contact your administrator.");
+            Assert.Equal(exception.Message, $"Product with Id {_invalidId} does not exist. Please contact your administrator.");
         }
 
         [Fact]
         public async Task GivenProductService_WhenReadingAProductThatDoesntExist_ShouldThrowError()
         {
             //act
-            var service = new ProductService(UnitOfWork, Mapper);
+            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
 
             //assert
-            var exception = await Assert.ThrowsAsync<AppException>(async () => await service.ReadAsync(invalidId));
+            var exception = await Assert.ThrowsAsync<AppException>(async () => await service.ReadAsync(_invalidId));
 
             Assert.IsType<AppException>(exception);
-            Assert.Equal(exception.Message, $"Product with Id {invalidId} does not exist. Please contact your administrator.");
+            Assert.Equal(exception.Message, $"Product with Id {_invalidId} does not exist. Please contact your administrator.");
         }
 
         [Fact]
         public async Task GivenProductService_WhenUpdatingAProductThatDoesntExist_ShouldThrowError()
         {
             //act
-            var service = new ProductService(UnitOfWork, Mapper);
+            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
 
             //assert
             var exception = await Assert.ThrowsAsync<AppException>(async () => await service.UpdateAsync(new UpdateProductDto() { Id = 1 }));
@@ -170,7 +172,5 @@ namespace Ecommerce.Business.Services.IntegrationTest
             Assert.Equal(exception.Message, $"Product does not exist. Please contact your administrator.");
         }
         #endregion
-
-
     }
 }
