@@ -12,16 +12,13 @@ namespace Ecommerce.BusinessLogic
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILoggedUserService _loggedUserService;
 
         public ProductService(
             IUnitOfWork unitOfWork,
-            IMapper mapper,
-            ILoggedUserService loggedUserService)
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _loggedUserService = loggedUserService;
         }
 
         public async Task<CreatedProductDto> CreateAsync(ProductToCreateDto entity)
@@ -47,7 +44,6 @@ namespace Ecommerce.BusinessLogic
 
         public async Task<IEnumerable<ProductDto>> ReadAsync()
         {
-            var user = _loggedUserService.GetLoggedUser();
             var products = await _unitOfWork.Products.ReadAsync();
             return _mapper.Map<IEnumerable<ProductDto>>(products);
         }

@@ -18,7 +18,6 @@ namespace Ecommerce.Business.Services.IntegrationTest
         private readonly DatabaseContext _context;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILoggedUserService _loggedUserService;
         private readonly int _invalidId = 1;
 
         public ProductServiceTest()
@@ -32,7 +31,6 @@ namespace Ecommerce.Business.Services.IntegrationTest
             var _mapperConfig = new MapperConfiguration(cfg => cfg.AddMaps(typeof(ProductProfile).Assembly));
             _mapper = new Mapper(_mapperConfig);
             _unitOfWork = new UnitOfWork(_context);
-            _loggedUserService = new LoggedUserService();
         }
 
         #region positive_tests
@@ -41,7 +39,7 @@ namespace Ecommerce.Business.Services.IntegrationTest
         {
             //arrange
             var product = new ProductToCreateDto() { Name = "Product", Description = "Some Product", Price = 10, Stock = 1 };
-            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
+            var service = new ProductService(_unitOfWork, _mapper);
             var beforeCount = await _context.Products.CountAsync();
 
             //act
@@ -61,7 +59,7 @@ namespace Ecommerce.Business.Services.IntegrationTest
             var product = new Product() { Name = "test", Description = "test" };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
+            var service = new ProductService(_unitOfWork, _mapper);
             var beforeCount = await _context.Products.CountAsync();
 
             //act
@@ -82,7 +80,7 @@ namespace Ecommerce.Business.Services.IntegrationTest
             var product = new Product() { Name = "test", Description = "test" };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
+            var service = new ProductService(_unitOfWork, _mapper);
             
             //act
             var readProduct = await service.ReadAsync(product.Id);
@@ -101,7 +99,7 @@ namespace Ecommerce.Business.Services.IntegrationTest
             var secondProduct = new Product() { Name = "test 2", Description = "test 2" };
             _context.Products.AddRange(firstProduct, secondProduct);
             await _context.SaveChangesAsync();
-            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
+            var service = new ProductService(_unitOfWork, _mapper);
 
             //act
             var products = await service.ReadAsync();
@@ -120,7 +118,7 @@ namespace Ecommerce.Business.Services.IntegrationTest
             var product = new Product() { Name = "test", Description = "test" };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
+            var service = new ProductService(_unitOfWork, _mapper);
 
             //act
             var newProduct = await service.UpdateAsync(new UpdateProductDto() { Id = product.Id, Name = "new name", Description = "new description" });
@@ -137,7 +135,7 @@ namespace Ecommerce.Business.Services.IntegrationTest
         public async Task GivenProductService_WhenDeletingAProductThatDoesntExist_ShouldThrowError()
         {
             //act
-            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
+            var service = new ProductService(_unitOfWork, _mapper);
 
             //assert
             var exception = await Assert.ThrowsAsync<AppException>(async () => await service.DeleteAsync(_invalidId));
@@ -150,7 +148,7 @@ namespace Ecommerce.Business.Services.IntegrationTest
         public async Task GivenProductService_WhenReadingAProductThatDoesntExist_ShouldThrowError()
         {
             //act
-            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
+            var service = new ProductService(_unitOfWork, _mapper);
 
             //assert
             var exception = await Assert.ThrowsAsync<AppException>(async () => await service.ReadAsync(_invalidId));
@@ -163,7 +161,7 @@ namespace Ecommerce.Business.Services.IntegrationTest
         public async Task GivenProductService_WhenUpdatingAProductThatDoesntExist_ShouldThrowError()
         {
             //act
-            var service = new ProductService(_unitOfWork, _mapper, _loggedUserService);
+            var service = new ProductService(_unitOfWork, _mapper);
 
             //assert
             var exception = await Assert.ThrowsAsync<AppException>(async () => await service.UpdateAsync(new UpdateProductDto() { Id = 1 }));
