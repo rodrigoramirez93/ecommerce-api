@@ -66,16 +66,16 @@ namespace API
                 });
             });
 
-            services.AddScoped<IRepository<Product>, ProductRepository>();
-            services.AddScoped<IContextService, ContextService>();
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseSqlServer(_appsettings.ConnectionStrings.API);
             }, ServiceLifetime.Scoped);
 
+            services.AddScoped<IRepository<Product>, ProductRepository>();
+            services.AddScoped<IContextService, ContextService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ILoggedUserService, LoggedUserService>();
 
             services.AddCors(options =>
             {

@@ -13,6 +13,11 @@ namespace Ecommerce.Core
             public static string ISO_8859_8 = "ISO-8859-8";
         }
 
+        public static class Claim
+        {
+            public static string Tenant = "Tenant";
+        }
+
         public enum EntityNames
         {
             Product,
@@ -39,6 +44,7 @@ namespace Ecommerce.Core
                 public static int Description { get; } = 20;
             }
         }
+
     }
 }
 
