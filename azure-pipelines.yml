@@ -19,7 +19,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: '**/*Ecommerce.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
