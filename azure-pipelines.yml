@@ -24,7 +24,7 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- checkout: ecommerce/ecommerce-shared
+- checkout: ecommerce-shared
 - checkout: self
 - task: NuGetToolInstaller@1
 
