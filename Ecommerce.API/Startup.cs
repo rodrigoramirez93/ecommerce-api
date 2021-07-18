@@ -74,8 +74,7 @@ namespace API
                 options.UseSqlServer(_appsettings.ConnectionStrings.API);
             }, ServiceLifetime.Scoped);
 
-            services.AddScoped<IRepository<Product>, ProductRepository>();
-            services.AddScoped<IContextService, ContextService>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ILoggedUserService, LoggedUserService>();
