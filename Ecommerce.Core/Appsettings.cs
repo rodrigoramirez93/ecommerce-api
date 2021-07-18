@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Infrastructure.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,15 +15,6 @@ namespace Ecommerce.Core
         public string AllowedHosts { get; set; }
 
         public JwtSettings JwtSettings { get; set; }
-    }
-
-    public class JwtSettings
-    {
-        public string Issuer { get; set; }
-
-        public string Secret { get; set; }
-
-        public int ExpirationInDays { get; set; }
     }
 
     public partial class ConnectionStrings

@@ -1,5 +1,4 @@
 using AutoMapper;
-using Ecommerce.API.Extensions;
 using Ecommerce.BusinessLogic;
 using Ecommerce.BusinessLogic.Interfaces;
 using Ecommerce.BusinessLogic.Mappings;
@@ -14,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Shared.Infrastructure.Extensions;
 using Shared.Infrastructure.Filters;
 using Shared.Infrastructure.Middleware;
 using System.Reflection;
