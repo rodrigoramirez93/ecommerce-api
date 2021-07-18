@@ -1,6 +1,8 @@
 ﻿using Ecommerce.Core;
 using Ecommerce.Domain.Interfaces;
+using Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Shared.Infrastructure.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 namespace Ecommerce.Domain
 {
     public class Repository<T> : IRepository<T>
-        where T : BaseEntity
+        where T : Entity
     {
         internal DatabaseContext _context;
         internal DbSet<T> _dbSet;

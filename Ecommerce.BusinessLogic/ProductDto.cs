@@ -1,9 +1,10 @@
 ﻿using Ecommerce.Core;
+using Shared.Infrastructure.Models;
 using System;
 
 namespace Ecommerce.BusinessLogic
 {
-    public class ProductDto: BaseDto
+    public class ProductDto: DTO
     {
         public string Name { get; set; }
 

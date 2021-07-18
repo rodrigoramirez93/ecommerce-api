@@ -3,6 +3,8 @@ using Ecommerce.BusinessLogic.Interfaces;
 using Ecommerce.Core;
 using Ecommerce.Domain;
 using Ecommerce.Domain.Interfaces;
+using Shared.Infrastructure.Core;
+using Shared.Infrastructure.Utilities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -5,6 +5,7 @@ using System.Text;
 using System;
 using Microsoft.AspNetCore.Builder;
 using Ecommerce.Core;
+using static Shared.Infrastructure.Core.Constants;
 
 namespace Ecommerce.API.Extensions
 {
@@ -51,7 +52,7 @@ namespace Ecommerce.API.Extensions
                     {
                         ValidIssuer = jwtSettings.Issuer,
                         ValidAudience = jwtSettings.Issuer,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtSettings.Secret)),
                         ClockSkew = TimeSpan.Zero
                     };
                 });

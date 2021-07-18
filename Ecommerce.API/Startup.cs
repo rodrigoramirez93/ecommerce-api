@@ -1,18 +1,21 @@
 using AutoMapper;
 using Ecommerce.API.Extensions;
-using Ecommerce.API.Filters;
 using Ecommerce.BusinessLogic;
 using Ecommerce.BusinessLogic.Interfaces;
 using Ecommerce.BusinessLogic.Mappings;
 using Ecommerce.Core;
 using Ecommerce.Domain;
 using Ecommerce.Domain.Interfaces;
+using Infrastructure.Interfaces;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Shared.Infrastructure.Filters;
+using Shared.Infrastructure.Middleware;
 using System.Reflection;
 
 namespace API

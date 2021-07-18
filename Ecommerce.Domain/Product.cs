@@ -1,8 +1,9 @@
 ﻿using Ecommerce.Core;
+using Infrastructure.Models;
 
 namespace Ecommerce.Domain
 {
-    public class Product : BaseEntity
+    public class Product : Entity
     {
         public string Name { get; set; }
         public string Description { get; set; }

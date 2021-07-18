@@ -6,6 +6,7 @@ using Ecommerce.Core;
 using Ecommerce.Domain;
 using Ecommerce.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Shared.Infrastructure;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
