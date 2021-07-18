@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1A3D3A22-9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Test.Core", "Ecommerce.Test.Core\Ecommerce.Test.Core.csproj", "{3556B316-0172-4803-97BD-B76966F60DB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Business.Services.IntegrationTest", "Ecommerce.Business.Services.IntegrationTest\Ecommerce.Business.Services.IntegrationTest.csproj", "{EAC495A6-7A17-4E21-8215-C9F76602453F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Test", "Ecommerce.Test\Ecommerce.Test.csproj", "{EAC495A6-7A17-4E21-8215-C9F76602453F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.BusinessLogic", "Ecommerce.BusinessLogic\Ecommerce.BusinessLogic.csproj", "{345A12DA-4FBB-460F-B9AC-8785D9E28077}"
 EndProject
