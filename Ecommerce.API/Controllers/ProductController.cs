@@ -53,10 +53,10 @@ namespace Ecommerce.API
         {
             return Ok(await _productService.UpdateAsync(productDto));
         }
-    
-        [HttpDelete]
+
+        [HttpDelete("{id}")]
         [Authorize(Policy = Claims.CAN_DELETE_PRODUCT)]
-        public async Task<IActionResult> Delete([FromQuery] int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _productService.DeleteAsync(id);
             return Ok(id);
