@@ -14,6 +14,7 @@ using Xunit;
 
 namespace Ecommerce.Business.Services.IntegrationTest
 {
+    [Trait("RunOnBuild", "true")]
     public class ProductServiceTest
     {
         private readonly DatabaseContext _context;
