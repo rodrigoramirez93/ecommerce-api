@@ -50,6 +50,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
+    projects: '**/*test.csproj'
     publishTestResults: true
     arguments: --no-build --configuration $(buildConfiguration) --collect:"XPlat Code Coverage" --filter RunOnBuild=true
   displayName: 'Run Tests'
