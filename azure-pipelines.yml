@@ -79,14 +79,14 @@ steps:
     script: |
       cd $(Agent.TempDirectory)
       $report = Get-ChildItem -Recurse -Filter "Cobertura.xml"
-      $coverage =  Select-Xml -Path $report.PSPath -XPath "*/packages/*[@name='Ecommerce.Test']" |% {[decimal]::Parse($_.Node.Attributes['branch-rate'].Value) * 100}
-      Write-Output "Ecommerce test code coverage ([int]$coverage)"
+      $coverage =  Select-Xml -Path $report.PSPath -XPath "*/packages/*[@name='Ecommerce.BusinessLogic']" |% {[decimal]::Parse($_.Node.Attributes['branch-rate'].Value) * 100}
+      Write-Output "Ecommerce.BusinessLogic code coverage ([int]$coverage)"
       if ($coverage -lt ${env:ECOMMERCE_TEST_THRESHOLD})
       {
-        Write-Output "Ecommerce.Test expected code coverage: $([int]${env:ECOMMERCE_TEST_THRESHOLD}). Actual: $([int]$coverage)"
+        Write-Output "Ecommerce.BusinessLogic expected code coverage: $([int]${env:ECOMMERCE_TEST_THRESHOLD}). Actual: $([int]$coverage)"
         throw;
       }
-  displayName: 'Checking Ecommerce.Test has 0% code coverage'
+  displayName: 'Checking Ecommerce.BusinessLogic has more than 0% code coverage'
 
 - task: DotNetCoreCLI@2
   inputs:
