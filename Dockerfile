@@ -6,7 +6,7 @@ COPY ./ ./
 RUN dotnet restore ./ecommerce-api/Ecommerce.sln
 
 RUN ls
-RUN dotnet publish ./ecommerce-api/Ecommerce.sln -c Release -o ./out --no-restore
+RUN dotnet publish ./ecommerce-api/Ecommerce.sln -c debug -o ./out --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:3.1
 WORKDIR /app
